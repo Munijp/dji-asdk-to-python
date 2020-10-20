@@ -553,21 +553,33 @@ class FlightController:
 
         for axis in order:
             if axis == "PITCH":
+                if pitch_distance<0:
+                    sign = -1
+                else:
+                    sign = 1
                 seconds = abs(pitch_distance / meters_per_second)
-                fcd = FlightControlData(pitch=meters_per_second, roll=0, yaw=0, vertical_throttle=0)
+                fcd = FlightControlData(pitch=sign*meters_per_second, roll=0, yaw=0, vertical_throttle=0)
             elif axis == "ROLL":
+                if roll_distance<0:
+                    sign = -1
+                else:
+                    sign = 1
                 seconds = abs(roll_distance / meters_per_second)
-                fcd = FlightControlData(pitch=0, roll=meters_per_second, yaw=0, vertical_throttle=0)
+                fcd = FlightControlData(pitch=0, roll=sign*meters_per_second, yaw=0, vertical_throttle=0)
             else:
                 # THROTTLE
+                if throttle_distance<0:
+                    sign = -1
+                else:
+                    sign = 1
                 seconds = abs(throttle_distance / meters_per_second)
-                fcd = FlightControlData(pitch=0, roll=0, yaw=0, vertical_throttle=meters_per_second)
+                fcd = FlightControlData(pitch=0, roll=0, yaw=0, vertical_throttle=sign*meters_per_second)
 
             start = time.perf_counter()
             end = start
             while end - start <= seconds:
                 end = time.perf_counter()
-                fc.sendVirtualStickFlightControlData(flight_control_data=fcd, timeout=0.3)
+                fc.sendVirtualStickFlightControlData(flight_control_data=fcd)
 
         fc.setVirtualStickModeEnabled(False)
 
