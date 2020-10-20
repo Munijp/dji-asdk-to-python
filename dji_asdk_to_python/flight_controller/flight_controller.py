@@ -1,3 +1,4 @@
+import time
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
 
@@ -525,5 +526,49 @@ class FlightController:
             blocking=blocking,
         )
 
+    # ----------------------------------- END OF HOME METHODS ----------------------------------
 
-# ----------------------------------- END OF HOME METHODS ----------------------------------
+    # ------------------------------ CUSTOM METHODS ----------------------------------
+
+    def move_distance(self, pitch_distance, roll_distance, throttle_distance, meters_per_second=0.2, order=["PITCH", "ROLL", "THROTTLE"]):
+        """
+        Custom method that allows aircraft moves distances on roll, pitch and throttle axis. This methos is blocking
+
+        Args:
+            - pitch (float): An integer value in meters
+            - roll (float): An integer value in meters
+            - throttle (float): An integer value in meters
+            - meters_per_second (float): An integer value in m/s
+            - timeout (int): A timeout seconds time
+        """
+
+        assert "PITCH" in order
+        assert "ROLL" in order
+        assert "THROTTLE" in order
+        assert len(order) == 3
+
+        fc = self
+        fc.setVirtualStickModeEnabled(True)
+        fc.setVerticalControlMode(VerticalControlMode.VELOCITY)
+
+        for axis in order:
+            if axis == "PITCH":
+                seconds = abs(pitch_distance / meters_per_second)
+                fcd = FlightControlData(pitch=meters_per_second, roll=0, yaw=0, vertical_throttle=0)
+            elif axis == "ROLL":
+                seconds = abs(roll_distance / meters_per_second)
+                fcd = FlightControlData(pitch=0, roll=meters_per_second, yaw=0, vertical_throttle=0)
+            else:
+                # THROTTLE
+                seconds = abs(throttle_distance / meters_per_second)
+                fcd = FlightControlData(pitch=0, roll=0, yaw=0, vertical_throttle=meters_per_second)
+
+            start = time.perf_counter()
+            end = start
+            while end - start <= seconds:
+                end = time.perf_counter()
+                fc.sendVirtualStickFlightControlData(flight_control_data=fcd, timeout=0.3)
+
+        fc.setVirtualStickModeEnabled(False)
+
+    # ------------------------------- END OF CUSTOM METHODS-------------------
