@@ -48,6 +48,10 @@ class MessageBuilder:
     STOP_STREAM = "stopStream"
     ROTATE = "rotate"
     GET_CHARGE_REMAINING_IN_PERCENT = "getChargeRemainingInPercent"
+    GET_EXPOSURE_MODE = "getExposureMode"
+    SET_EXPOSURE_MODE = "setExposureMode"
+    GET_ISO = "getISO"
+    SET_ISO = "setISO"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
@@ -57,6 +61,7 @@ class MessageBuilder:
     LIVE_STREAM_MANAGER = "LiveStreamManager"
     GIMBAL = "Gimbal"
     BATTETY = "Battery"
+    CAMERA = "Camera"
 
     # Custom flags
     SUCCESS = "success"
