@@ -443,7 +443,7 @@ class ArucoLanding:
                     flying = flight_controller_state.isFlying()
 
                     if flying is not None and flying:
-                        fc.move_distance(pitch_distance=0.1, roll_distance=0, throttle_distance=2, meters_per_second=0.5, order=["THROTTLE", "PITCH", "ROLL"])
+                        fc.move_distance(pitch_distance=0.1, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "PITCH", "ROLL"])
                         # send_move_distance(self.pk_drone, 0, 0, 200, 70, "PITCH")
                         gimbal.rotate(-90, 0, 0)
                         fc.setVirtualStickModeEnabled(True)

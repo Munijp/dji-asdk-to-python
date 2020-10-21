@@ -1,6 +1,5 @@
 from .message_builder import MessageBuilder
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
-#from dji_asdk_to_python.battery.battery_state import BatteryState
 from dji_asdk_to_python.flight_controller.location_coordinate_3d import LocationCoordinate3D
 from dji_asdk_to_python.flight_controller.go_home_execution_state import GoHomeExecutionState
 from dji_asdk_to_python.flight_controller.flight_mode import FlightMode
@@ -8,6 +7,7 @@ from dji_asdk_to_python.flight_controller.attitude import Attitude
 from dji_asdk_to_python.flight_controller.virtual_stick.control_mode import (
     VerticalControlMode,
 )
+from dji_asdk_to_python.battery.battery_state import BatteryState
 
 
 from dji_asdk_to_python.errors import (
@@ -55,7 +55,7 @@ def data_to_flight_controller_state(data):
     fcs._flight_mode = FlightMode(flight_mode)
     return fcs
 
-from dji_asdk_to_python.battery.battery_state import BatteryState
+
 def data_to_battery_state(data):
     message = data
     battery_state = message["getChargeRemainingInPercent"]

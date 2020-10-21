@@ -1,5 +1,6 @@
 import uuid
 
+
 class BatteryState:
     """
     This class keeps track of the real-time state of the battery.
