@@ -1,7 +1,6 @@
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
 from dji_asdk_to_python.camera.ExposureMode import ExposureMode
-
 from dji_asdk_to_python.utils.shared import checkParameters
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
