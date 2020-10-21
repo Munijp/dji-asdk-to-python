@@ -1,7 +1,7 @@
 from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.battery.battery_state import BatteryState
 
-APP_IP = "192.168.0.174"
+APP_IP = "192.168.0.175"
 
 drone = Aircraft(APP_IP)
 battery = drone.getBattery()
