@@ -5,6 +5,7 @@ class MessageBuilder:
     GET_VIRTUAL_STICK_MODE_ENABLED = "getVirtualStickModeEnabled"
     IS_CONNECTED = "isConnected"
     GET_STATE = "getState"
+    GET_BATTERY_STATE = "getBatteryState"
     SEND_VIRTUAL_STICK_FLIGHT_CONTROL_DATA = (
         "sendVirtualStickFlightControlData"
     )
@@ -46,6 +47,11 @@ class MessageBuilder:
     START_STREAM = "startStream"
     STOP_STREAM = "stopStream"
     ROTATE = "rotate"
+    GET_CHARGE_REMAINING_IN_PERCENT = "getChargeRemainingInPercent"
+    GET_EXPOSURE_MODE = "getExposureMode"
+    SET_EXPOSURE_MODE = "setExposureMode"
+    GET_ISO = "getISO"
+    SET_ISO = "setISO"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
@@ -54,6 +60,8 @@ class MessageBuilder:
     BUILDER = "Builder"
     LIVE_STREAM_MANAGER = "LiveStreamManager"
     GIMBAL = "Gimbal"
+    BATTETY = "Battery"
+    CAMERA = "Camera"
 
     # Custom flags
     SUCCESS = "success"
