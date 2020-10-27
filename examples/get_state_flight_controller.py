@@ -4,11 +4,13 @@ from dji_asdk_to_python.flight_controller.flight_controller_state import (
 )
 
 
-APP_IP = "192.168.0.175"
+APP_IP = "192.168.0.174"
 
 drone = Aircraft(APP_IP)
 fc = drone.getFlightController()
+print(fc)
 flight_controller_state = fc.getState()
+print(flight_controller_state)
 print("areMotorsOn %s " % flight_controller_state.areMotorsOn())
 print("isFlying %s " % flight_controller_state.isFlying())
 print("velocityX %s " % flight_controller_state.getVelocityX())
