@@ -1,4 +1,7 @@
-class ISO:
+from enum import Enum
+
+
+class ISO(Enum):
     AUTO = 0
     ISO_50 = 2
     ISO_100 = 3
@@ -12,3 +15,6 @@ class ISO:
     ISO_25600 = 11
     FIXED = 255
     UNKNOWN = 65535
+
+    def __str__(self):
+        return self.name

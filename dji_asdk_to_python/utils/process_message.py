@@ -60,10 +60,11 @@ def data_to_flight_controller_state(data):
 
 def data_to_battery_state(data):
     message = data
-    battery_state = message["getChargeRemainingInPercent"]
-
+    charge_remaining = message["getChargeRemainingInPercent"]
+    if charge_remaining == -1:
+        charge_remaining = None
     bs = BatteryState()
-    bs._battery_state = battery_state
+    bs._battery_state = charge_remaining
     return bs
 
 
@@ -88,11 +89,14 @@ def process_return_type(server_message, return_type):
         elif response == "POSITION":
             result = VerticalControlMode(1)
     elif return_type == ExposureMode:
-        result = server_message["data"]
+        data = server_message["data"]["exposureMode"]
+        result = ExposureMode[data]
     elif return_type == ISO:
-        result = server_message["data"]
+        data = server_message["data"]["iso"]
+        result = ISO[data]
     elif return_type == ShutterSpeed:
-        result = server_message["data"]
+        data = server_message["data"]["shutterSpeed"]
+        result = ShutterSpeed[data]
     elif return_type == DJIError:
         result = None
     elif return_type is None:

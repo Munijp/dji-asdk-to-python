@@ -64,10 +64,12 @@ class Camera:
             callback=callback, method_name="setExposureMode", timeout=timeout,
         )
 
+        assert isinstance(mode, ExposureMode)
+
         message = MessageBuilder.build_message(
-            message_method=MessageBuilder.SET_HOME_LOCATION,
+            message_method=MessageBuilder.SET_EXPOSURE_MODE,
             message_class=MessageBuilder.CAMERA,
-            message_data={"mode": mode},
+            message_data={"mode": mode.value},
         )
 
         return_type = DJIError
@@ -132,10 +134,12 @@ class Camera:
             callback=callback, method_name="setExposureMode", timeout=timeout,
         )
 
+        assert isinstance(iso, ISO)
+
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_ISO,
             message_class=MessageBuilder.CAMERA,
-            message_data={"iso": iso},
+            message_data={"iso": iso.value},
         )
 
         return_type = DJIError
@@ -191,10 +195,12 @@ class Camera:
             callback=callback, method_name="setShutterSpeed", timeout=timeout,
         )
 
+        assert isinstance(shutter_speed, ShutterSpeed)
+
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_SHUTTER_SPEED,
             message_class=MessageBuilder.CAMERA,
-            message_data={"shutter_speed": shutter_speed},
+            message_data={"shutter_speed": shutter_speed.value},
         )
 
         return_type = DJIError
