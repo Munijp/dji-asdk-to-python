@@ -1,9 +1,10 @@
-import time
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
 
 from dji_asdk_to_python.utils.shared import checkParameters
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
+from dji_asdk_to_python.camera.ExposureMode import ExposureMode
+
 
 class Camera:
     """
@@ -45,15 +46,15 @@ class Camera:
             return_type=return_type,
             blocking=blocking,
         )
-    
+
     def setExposureMode(self, mode, callback=None, timeout=10):
         """
             Sets the camera's exposure mode.
 
-            Check ExposureMode to view all possible camera exposure modes. 
-            Please note that in different exposure mode, it will have different 
-            values for the same setting. 
-            
+            Check ExposureMode to view all possible camera exposure modes.
+            Please note that in different exposure mode, it will have different
+            values for the same setting.
+
             Args:
                 - callback (function): The execution callback with the returned execution result.
                 - mode (ExposureMode): 	Camera exposure mode to set.
@@ -80,10 +81,10 @@ class Camera:
             return_type=return_type,
             blocking=blocking,
         )
-    
+
     def getISO(self, callback=None, timeout=10):
         """
-            Gets the camera's ISO value. 
+            Gets the camera's ISO value.
         """
 
         checkParameters(callback=callback, method_name="getExposureMode", timeout=timeout)

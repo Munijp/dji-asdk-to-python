@@ -20,6 +20,6 @@ class Aircraft:
 
     def getLiveStreamManager(self):
         return LiveStreamManager(self.app_ip)
-    
+
     def getBattery(self):
         return Battery(self.app_ip)
