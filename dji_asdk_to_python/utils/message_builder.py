@@ -52,6 +52,8 @@ class MessageBuilder:
     SET_EXPOSURE_MODE = "setExposureMode"
     GET_ISO = "getISO"
     SET_ISO = "setISO"
+    GET_SHUTTER_SPEED = "getShutterSpeed"
+    SET_SHUTTER_SPEED = "setShutterSpeed"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
