@@ -1,6 +1,5 @@
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
-from dji_asdk_to_python.camera.ExposureMode import ExposureMode
 from dji_asdk_to_python.utils.shared import checkParameters
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
@@ -84,32 +83,32 @@ class Camera:
             blocking=blocking,
         )
 
-     def getISO(self, callback=None, timeout=10):
-         """
-         Gets the camera's ISO value.
-         """
+    def getISO(self, callback=None, timeout=10):
+        """
+        Gets the camera's ISO value.
+        """
         checkParameters(callback=callback, method_name="getISO", timeout=timeout)
 
-         checkParameters(callback=callback, method_name="getExposureMode", timeout=timeout)
+        checkParameters(callback=callback, method_name="getExposureMode", timeout=timeout)
 
-         message = MessageBuilder.build_message(
-             message_method=MessageBuilder.GET_ISO,
-             message_class=MessageBuilder.CAMERA,
-             message_data=None,
-         )
+        message = MessageBuilder.build_message(
+            message_method=MessageBuilder.GET_ISO,
+            message_class=MessageBuilder.CAMERA,
+            message_data=None,
+        )
 
-         return_type = ISO
+        return_type = ISO
 
-         blocking = callback is None
+        blocking = callback is None
 
-         return SocketUtils.send(
-             message=message,
-             app_ip=self.app_ip,
-             callback=callback,
-             timeout=timeout,
-             return_type=return_type,
-             blocking=blocking,
-         )
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=callback,
+            timeout=timeout,
+            return_type=return_type,
+            blocking=blocking,
+        )
         return SocketUtils.send(
             message=message,
             app_ip=self.app_ip,

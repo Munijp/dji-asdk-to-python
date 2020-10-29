@@ -1,4 +1,7 @@
 from .message_builder import MessageBuilder
+from dji_asdk_to_python.camera.exposure_mode import ExposureMode
+from dji_asdk_to_python.camera.iso import ISO
+from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
 from dji_asdk_to_python.flight_controller.location_coordinate_3d import LocationCoordinate3D
 from dji_asdk_to_python.flight_controller.go_home_execution_state import GoHomeExecutionState
@@ -8,7 +11,6 @@ from dji_asdk_to_python.flight_controller.virtual_stick.control_mode import (
     VerticalControlMode,
 )
 from dji_asdk_to_python.battery.battery_state import BatteryState
-
 
 from dji_asdk_to_python.errors import (
     JsonError,
@@ -85,6 +87,12 @@ def process_return_type(server_message, return_type):
             result = VerticalControlMode(0)
         elif response == "POSITION":
             result = VerticalControlMode(1)
+    elif return_type ==  ExposureMode:
+        result = server_message["data"]
+    elif return_type ==  ISO:
+        result = server_message["data"]
+    elif return_type ==  ShutterSpeed:
+        result = server_message["data"]
     elif return_type == DJIError:
         result = None
     elif return_type is None:
