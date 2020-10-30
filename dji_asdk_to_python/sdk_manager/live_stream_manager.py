@@ -6,6 +6,7 @@ from dji_asdk_to_python.utils.message_builder import MessageBuilder
 class RTPManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
+        self.stream_id = "default"
         self.streaming_listener = StreamingListener(width=1920, height=1088)
 
     def _remote_start(self):
@@ -13,7 +14,7 @@ class RTPManager:
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.START_RTP_STREAMING,
             message_class=MessageBuilder.RTP_STREAMING,
-            message_data={"port": self.streaming_listener.port, "ip": ip},
+            message_data={"port": self.streaming_listener.port, "ip": ip, "stream_id": self.stream_id},
         )
 
         self.streaming_listener.start()  # TODO check for pipe state
@@ -36,11 +37,15 @@ class RTPManager:
         )
         return result
 
+    def set_stream_id(self, stream_id):
+        assert isinstance(stream_id, str)
+        self.stream_id = stream_id
+
     def _remote_stop(self):
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.STOP_RTP_STREAMING,
             message_class=MessageBuilder.RTP_STREAMING,
-            message_data={},
+            message_data={"stream_id": self.stream_id},
         )
 
         def callback(result):

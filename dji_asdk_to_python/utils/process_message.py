@@ -1,3 +1,4 @@
+from dji_asdk_to_python.battery.battery_state import BatteryState
 from .message_builder import MessageBuilder
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
@@ -10,7 +11,6 @@ from dji_asdk_to_python.flight_controller.attitude import Attitude
 from dji_asdk_to_python.flight_controller.virtual_stick.control_mode import (
     VerticalControlMode,
 )
-from dji_asdk_to_python.battery.battery_state import BatteryState
 
 from dji_asdk_to_python.errors import (
     JsonError,
@@ -60,10 +60,11 @@ def data_to_flight_controller_state(data):
 
 def data_to_battery_state(data):
     message = data
-    battery_state = message["getChargeRemainingInPercent"]
-
+    charge_remaining = message["getChargeRemainingInPercent"]
+    if charge_remaining == -1:
+        charge_remaining = None
     bs = BatteryState()
-    bs._battery_state = battery_state
+    bs._battery_state = charge_remaining
     return bs
 
 
@@ -87,12 +88,15 @@ def process_return_type(server_message, return_type):
             result = VerticalControlMode(0)
         elif response == "POSITION":
             result = VerticalControlMode(1)
-    elif return_type ==  ExposureMode:
-        result = server_message["data"]
-    elif return_type ==  ISO:
-        result = server_message["data"]
-    elif return_type ==  ShutterSpeed:
-        result = server_message["data"]
+    elif return_type == ExposureMode:
+        data = server_message["data"]["exposureMode"]
+        result = ExposureMode[data]
+    elif return_type == ISO:
+        data = server_message["data"]["iso"]
+        result = ISO[data]
+    elif return_type == ShutterSpeed:
+        data = server_message["data"]["shutterSpeed"]
+        result = ShutterSpeed[data]
     elif return_type == DJIError:
         result = None
     elif return_type is None:

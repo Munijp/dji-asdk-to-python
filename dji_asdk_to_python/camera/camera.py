@@ -64,10 +64,12 @@ class Camera:
             callback=callback, method_name="setExposureMode", timeout=timeout,
         )
 
+        assert isinstance(mode, ExposureMode)
+
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_EXPOSURE_MODE,
             message_class=MessageBuilder.CAMERA,
-            message_data={"mode": mode},
+            message_data={"mode": mode.value},
         )
 
         return_type = DJIError
@@ -117,25 +119,27 @@ class Camera:
             return_type=return_type,
             blocking=blocking,
         )
-    
+
     def setISO(self, iso, callback=None, timeout=10):
         """
             Sets the camera's ISO value.
 
-            See ISO to view all possible ISO settings for the camera. 
-            
+            See ISO to view all possible ISO settings for the camera.
+
             Args:
                 - callback (function): The execution callback with the returned execution result.
-                - iso (ISO): 	The ISO value to set the camera to use. 
+                - iso (ISO): 	The ISO value to set the camera to use.
         """
         checkParameters(
             callback=callback, method_name="setExposureMode", timeout=timeout,
         )
 
+        assert isinstance(iso, ISO)
+
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_ISO,
             message_class=MessageBuilder.CAMERA,
-            message_data={"iso": iso},
+            message_data={"iso": iso.value},
         )
 
         return_type = DJIError
@@ -150,7 +154,7 @@ class Camera:
             return_type=return_type,
             blocking=blocking,
         )
-    
+
     def getShutterSpeed(self, callback=None, timeout=10):
         """
             Gets the camera's shutter speed.
@@ -176,13 +180,13 @@ class Camera:
             return_type=return_type,
             blocking=blocking,
         )
-    
+
     def setShutterSpeed(self, shutter_speed, callback=None, timeout=10):
         """
             Sets the camera's ISO value.
 
-            See ISO to view all possible ISO settings for the camera. 
-            
+            See ISO to view all possible ISO settings for the camera.
+
             Args:
                 - callback (function): The execution callback with the returned execution result.
                 - shutter_speed (ShutterSpeed): The ISO value to set the camera to use.
@@ -191,10 +195,12 @@ class Camera:
             callback=callback, method_name="setShutterSpeed", timeout=timeout,
         )
 
+        assert isinstance(shutter_speed, ShutterSpeed)
+
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_SHUTTER_SPEED,
             message_class=MessageBuilder.CAMERA,
-            message_data={"shutter_speed": shutter_speed},
+            message_data={"shutter_speed": shutter_speed.value},
         )
 
         return_type = DJIError

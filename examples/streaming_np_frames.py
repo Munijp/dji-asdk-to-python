@@ -4,7 +4,7 @@ from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.errors import CustomError
 
 
-APP_IP = "192.168.50.158"
+APP_IP = "192.168.0.112"
 STREAMING_DURATION = 1000  # seconds
 
 aircraft = Aircraft(APP_IP)
@@ -12,6 +12,7 @@ streaming_manager = aircraft.getLiveStreamManager()
 rtp_manager = streaming_manager.getRTPManager()
 rtp_manager.setWidth(1920)
 rtp_manager.setHeigth(1080)
+rtp_manager.set_stream_id("testing")
 result = rtp_manager.startStream()
 print("result startStream %s" % result)
 
