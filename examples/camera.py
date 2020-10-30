@@ -15,13 +15,13 @@ print("Shutter Speed : %s" % camera.getShutterSpeed())
 
 time.sleep(1)
 
-camera.setExposureMode(ExposureMode.PROGRAM)
+print(camera.setExposureMode(ExposureMode.MANUAL))
 print(ExposureMode.MANUAL)
 time.sleep(1)
-camera.setISO(ISO.ISO_3200)
+print(camera.setISO(ISO.ISO_3200))
 print(ISO.ISO_3200)
 time.sleep(1)
-camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_400)
+print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_400))
 print(ShutterSpeed.SHUTTER_SPEED_1_400)
 
 time.sleep(1)

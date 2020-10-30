@@ -65,7 +65,7 @@ class Camera:
         )
 
         message = MessageBuilder.build_message(
-            message_method=MessageBuilder.SET_HOME_LOCATION,
+            message_method=MessageBuilder.SET_EXPOSURE_MODE,
             message_class=MessageBuilder.CAMERA,
             message_data={"mode": mode},
         )
