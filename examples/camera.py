@@ -17,7 +17,6 @@ print(camera.setExposureMode(ExposureMode.MANUAL))
 print(camera.setISO(ISO.AUTO))
 print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000))
 
-
 print("Exposure Mode : %s" % camera.getExposureMode())
 print("ISO : %s" % camera.getISO())
 print("Shutter Speed : %s" % camera.getShutterSpeed())
