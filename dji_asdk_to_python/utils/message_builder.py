@@ -54,6 +54,8 @@ class MessageBuilder:
     SET_ISO = "setISO"
     GET_SHUTTER_SPEED = "getShutterSpeed"
     SET_SHUTTER_SPEED = "setShutterSpeed"
+    GO_TO_ACTION = "goToAction"
+    AIRCRAFT_YAW_ACTION = "aircragttYawAction"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
@@ -64,6 +66,7 @@ class MessageBuilder:
     GIMBAL = "Gimbal"
     BATTETY = "Battery"
     CAMERA = "Camera"
+    MISSION_ACTION = "MissionAction"
 
     # Custom flags
     SUCCESS = "success"
