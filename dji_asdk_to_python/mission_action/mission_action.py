@@ -27,7 +27,7 @@ class MissionAction:
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.GO_TO_ACTION,
             message_class=MessageBuilder.MISSION_ACTION,
-            message_data={"cordinate": coordinate, "altitude": altitude},
+            message_data={"coordinate": coordinate, "altitude": altitude},
         )
 
         return_type = DJIError

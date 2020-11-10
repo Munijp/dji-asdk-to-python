@@ -55,7 +55,7 @@ class MessageBuilder:
     GET_SHUTTER_SPEED = "getShutterSpeed"
     SET_SHUTTER_SPEED = "setShutterSpeed"
     GO_TO_ACTION = "goToAction"
-    AIRCRAFT_YAW_ACTION = "aircragttYawAction"
+    AIRCRAFT_YAW_ACTION = "aircraftYawAction"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
