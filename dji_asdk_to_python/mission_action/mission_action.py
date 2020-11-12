@@ -1,6 +1,7 @@
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.utils.shared import checkParameters
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
+from dji_asdk_to_python.utils.process_message import DJIError
 
 
 class MissionAction:
@@ -29,7 +30,7 @@ class MissionAction:
             message_data={"coordinate": coordinate.__dict__, "altitude": altitude},
         )
 
-        return_type = None
+        return_type = DJIError
 
         blocking = callback is None
 
@@ -57,7 +58,7 @@ class MissionAction:
             message_data={"angle": angle, "isAbsolute": isAbsolute},
         )
 
-        return_type = None
+        return_type = DJIError
 
         blocking = callback is None
 
