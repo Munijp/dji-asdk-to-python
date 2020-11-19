@@ -56,6 +56,7 @@ class MessageBuilder:
     SET_SHUTTER_SPEED = "setShutterSpeed"
     GO_TO_ACTION = "goToAction"
     AIRCRAFT_YAW_ACTION = "aircraftYawAction"
+    SET_COLLISION_AVOIDANCE_ENABLED = "setCollisionAvoidanceEnabled"
 
     # DJI Classes
     FLIGHT_CONTROLLER = "FlightController"
