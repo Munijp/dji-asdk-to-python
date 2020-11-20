@@ -10,7 +10,6 @@ from os import sys
 from dji_asdk_to_python.errors import CustomError
 from dji_asdk_to_python.flight_controller.virtual_stick.flight_control_data import FlightControlData
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
-from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
@@ -355,8 +354,8 @@ class ArucoLanding:
         self.pidy.setSampleTime(0.1)
         self.pidz.setSampleTime(0.1)
 
-    def __init__(self, app_ip, marker_id, marker_size_cm, width, height, camera_matrix, camera_distortion):
-        self.aircraft = Aircraft(app_ip)
+    def __init__(self, aircraft, marker_id, marker_size_cm, width, height, camera_matrix, camera_distortion):
+        self.aircraft = aircraft
         self.rtp_manager = self.aircraft.getLiveStreamManager().getRTPManager()
         self.rtp_manager.setWidth(width)
         self.rtp_manager.setHeigth(height)
@@ -445,9 +444,6 @@ class ArucoLanding:
 
                 xoutput = self.pidx.output
                 youtput = self.pidy.output
-
-                print("X output:%s" % xoutput)
-                print("Y output:%s" % youtput)
 
                 fcd.setPitch(youtput)
                 fcd.setRoll(xoutput * -1)
