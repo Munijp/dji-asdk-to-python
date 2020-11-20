@@ -585,7 +585,7 @@ class FlightController:
 
     # ------------------------------- END OF CUSTOM METHODS-------------------
 
-    def setCollisionAvoidanceEnabled(self, mode, callback=None, timeout=10):
+    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=10):
         """
         Enable collision avoidance. When enabled, the aircraft will stop and try to go around detected obstacles.
         """
@@ -596,7 +596,7 @@ class FlightController:
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_COLLISION_AVOIDANCE_ENABLED,
             message_class=MessageBuilder.FLIGHT_CONTROLLER,
-            message_data={"mode": mode.value},
+            message_data={"enable": enable},
         )
 
         return_type = DJIError
