@@ -1,30 +1,22 @@
-from dji_asdk_to_python.products.aircraft import Aircraft
 import numpy as np
-from dji_asdk_to_python.precision_landing.aproximation import ArucoAproximation
-from dji_asdk_to_python.precision_landing.landing import ArucoLanding
-from time import sleep
-import os
-from dji_asdk_to_python.errors import CustomError
 
-APP_IP = "192.168.50.158"
+from dji_asdk_to_python.products.aircraft import Aircraft
+from dji_asdk_to_python.precision_landing.landing import ArucoLanding
+
+APP_IP = "192.168.100.206"
+MARKER_ID = 17
+MARKER_SIZE_CM = 60
+IMAGE_WIDTH = 1280
+IMAGE_HEIGHT = 720
+CAMERA_MATRIX = np.loadtxt("calibration/camera_matrix.txt", delimiter=",")
+CAMERA_DISTORTION = np.loadtxt("calibration/camera_distortion.txt", delimiter=",")
 
 aircraft = Aircraft(APP_IP)
-camera_distortion = np.loadtxt("/home/luis/Documentos/psbposas/dji-asdk-to-python/examples/calibration/camera_distortion.txt", delimiter=",")
-camera_matrix = np.loadtxt("/home/luis/Documentos/psbposas/dji-asdk-to-python/examples/calibration/camera_matrix.txt", delimiter=",")
-stage1 = ArucoAproximation(drone_ip=APP_IP,camera_distortion=camera_distortion, camera_matrix=camera_matrix, marker_id=17, marker_size_cm=70)
-stage2 = ArucoLanding(drone_ip=APP_IP,camera_distortion=camera_distortion, camera_matrix=camera_matrix, marker_id=62, marker_size_cm=12)
-streaming_manager = aircraft.getLiveStreamManager()
-rtp_manager = streaming_manager.getRTPManager()
-rtp_manager.setWidth(1280)
-rtp_manager.setHeigth(720)
-result = rtp_manager.startStream()
-print("result startStream %s" % result)
-if isinstance(result, CustomError):
-    raise Exception("%s" % result)
-
-stage1.start(rtp_manager)
-
-input("PRESS A KEY TO ENTER STAGE 2") #DBest notification of top platform deployment should be awaited here
-
-stage2.start(rtp_manager) 
-
+aruco_landing = ArucoLanding(aircraft=aircraft,
+                             width=IMAGE_WIDTH,
+                             height=IMAGE_HEIGHT,
+                             camera_distortion=CAMERA_DISTORTION,
+                             camera_matrix=CAMERA_MATRIX,
+                             marker_id=MARKER_ID,
+                             marker_size_cm=MARKER_SIZE_CM)
+aruco_landing.start()

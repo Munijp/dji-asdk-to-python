@@ -4,7 +4,7 @@ from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.errors import CustomError
 
 
-APP_IP = "192.168.0.112"
+APP_IP = "192.168.100.206"
 STREAMING_DURATION = 1000  # seconds
 
 aircraft = Aircraft(APP_IP)
@@ -32,7 +32,8 @@ while elapsed_seconds < STREAMING_DURATION:
 
     cv2.imshow("frame", frame)
 
-    if cv2.waitKey(100) & 0xFF == ord("q"):
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('q'):
         break
 
 
