@@ -386,15 +386,15 @@ class ArucoLanding:
         gimbal.rotate(-90, 0, 0)
         print("Gimbal set to -90 degrees")
 
-        # TODO: send_sensorial_enabled(self.pk_drone, False)
+        fc = self.aircraft.getFlightController()
+        fc.setVirtualStickModeEnabled(True)
+        fcd = FlightControlData()
+        fc.setCollisionAvoidanceEnabled(False)
+
         camera = self.aircraft.getCamera()
         camera.setExposureMode(ExposureMode.MANUAL)
         camera.setISO(ISO.ISO_200)
         camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2500)
-
-        fc = self.aircraft.getFlightController()
-        fc.setVirtualStickModeEnabled(True)
-        fcd = FlightControlData()
 
         start = time.perf_counter()
         last_z = sys.maxint
@@ -471,8 +471,12 @@ class ArucoLanding:
                     flying = flight_controller_state.isFlying()
 
                     if flying is not None and not flying:
-                        # TODO: send_set_iso_auto(self.pk_drone)
-                        # TODO: send_sensorial_enabled(self.pk_drone, True)
+
+                        camera.setExposureMode(ExposureMode.MANUAL)
+                        camera.setISO(ISO.AUTO)
+                        camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+
+                        fc.setCollisionAvoidanceEnabled(True)
                         self.running = False
                         break
                     gimbal.rotate(-90, 0, 0)
@@ -497,7 +501,9 @@ class ArucoLanding:
                 flying = flight_controller_state.isFlying()
                 print("flying %s" % flying)
                 if flying is not None and not flying:
-                    # TODO: send_set_iso_auto(self.pk_drone)
+                    camera.setExposureMode(ExposureMode.MANUAL)
+                    camera.setISO(ISO.AUTO)
+                    camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
                     self.running = False
                     break
         gimbal.rotate(0, 0, 0)
