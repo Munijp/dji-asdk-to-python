@@ -9,11 +9,11 @@ STREAMING_DURATION = 1000  # seconds
 
 aircraft = Aircraft(APP_IP)
 streaming_manager = aircraft.getLiveStreamManager()
-rtp_manager = streaming_manager.getRTPManager()
-rtp_manager.setWidth(1920)
-rtp_manager.setHeigth(1080)
-rtp_manager.set_stream_id("testing")
-result = rtp_manager.startStream()
+cv2_manager = streaming_manager.getCV2Manager()
+cv2_manager.setWidth(1920)
+cv2_manager.setHeigth(1080)
+cv2_manager.set_stream_id("testing")
+result = cv2_manager.startStream()
 print("result startStream %s" % result)
 
 start = time.time()
@@ -25,7 +25,7 @@ if isinstance(result, CustomError):
 while elapsed_seconds < STREAMING_DURATION:
     end = time.time()
     elapsed_seconds = end - start
-    frame = rtp_manager.getFrame()
+    frame = cv2_manager.getFrame()
 
     if frame is None:
         continue
@@ -39,4 +39,4 @@ while elapsed_seconds < STREAMING_DURATION:
 
 cv2.destroyAllWindows()
 
-rtp_manager.stopStream()
+cv2_manager.stopStream()

@@ -23,11 +23,11 @@ from dji_asdk_to_python.errors import CustomError
 def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
     aircraft = Aircraft(app_ip)
     streaming_manager = aircraft.getLiveStreamManager()
-    rtp_manager = streaming_manager.getRTPManager()
-    rtp_manager.setWidth(width)
-    rtp_manager.setHeigth(height)
-    rtp_manager.set_stream_id("calibration")
-    result = rtp_manager.startStream()
+    cv2_manager = streaming_manager.getCV2Manager()
+    cv2_manager.setWidth(width)
+    cv2_manager.setHeigth(height)
+    cv2_manager.set_stream_id("calibration")
+    result = cv2_manager.startStream()
     print("result startStream %s" % result)
 
     if isinstance(result, CustomError):
@@ -52,7 +52,7 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
     fileName = "%s/%s_%d_%d_" % (folder, name, w, h)
 
     while True:
-        frame = rtp_manager.getFrame()
+        frame = cv2_manager.getFrame()
 
         if frame is None:
             continue
@@ -69,7 +69,7 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
             nSnap += 1
 
     cv2.destroyAllWindows()
-    rtp_manager.stopStream()
+    cv2_manager.stopStream()
 
 
 def main():

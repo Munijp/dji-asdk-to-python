@@ -294,7 +294,7 @@ class ArucoSingleTracker:
                 yaw_camera,
             ) = self._rotationMatrixToEulerAngles(self._R_flip * R_tc)
 
-        if type(None) == type(yaw_marker):
+        if yaw_marker is None:
             marker_found = False
             yaw_marker = 0
 
@@ -358,10 +358,10 @@ class ArucoLanding:
 
     def __init__(self, aircraft, marker_id, marker_size_cm, width, height, camera_matrix, camera_distortion):
         self.aircraft = aircraft
-        self.rtp_manager = self.aircraft.getLiveStreamManager().getRTPManager()
-        self.rtp_manager.setWidth(width)
-        self.rtp_manager.setHeigth(height)
-        self.rtp_manager.set_stream_id("precision_landing")
+        self.cv2_manager = self.aircraft.getLiveStreamManager().getCV2Manager()
+        self.cv2_manager.setWidth(width)
+        self.cv2_manager.setHeigth(height)
+        self.cv2_manager.set_stream_id("precision_landing")
 
         self.marker_id = marker_id
         self.marker_size_cm = marker_size_cm
@@ -378,8 +378,8 @@ class ArucoLanding:
             fc.setVirtualStickModeEnabled(True)
             time.sleep(1)
 
-    def start(self):
-        result = self.rtp_manager.startStream()
+    def start(self, is_night):
+        result = self.cv2_manager.startStream()
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
 
@@ -392,9 +392,13 @@ class ArucoLanding:
         fc.setCollisionAvoidanceEnabled(False)
 
         camera = self.aircraft.getCamera()
-        camera.setExposureMode(ExposureMode.MANUAL)
-        camera.setISO(ISO.ISO_200)
-        camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2500)
+
+        if is_night:
+            camera.setExposureMode(ExposureMode.PROGRAM)
+        else:
+            camera.setExposureMode(ExposureMode.MANUAL)
+            camera.setISO(ISO.ISO_200)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2500)
 
         start = time.perf_counter()
         last_z = sys.maxsize
@@ -407,7 +411,7 @@ class ArucoLanding:
             fcd.setRoll(0)
             fcd.setVerticalThrottle(0)
 
-            frame = self.rtp_manager.getFrame()
+            frame = self.cv2_manager.getFrame()
             if frame is None:
                 continue
 
@@ -488,7 +492,6 @@ class ArucoLanding:
                 print("elapsed %s last_z %s" % (end - start, last_z))
                 if last_z < 300 and (end - start) > 10:
                     fc.setVirtualStickModeEnabled(True)
-                    fc.move_distance()
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
                     self.resetPid()
                     end = time.perf_counter()

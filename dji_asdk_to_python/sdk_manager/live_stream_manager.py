@@ -1,4 +1,4 @@
-from dji_asdk_to_python.utils.streaming_utils import StreamingListener
+from dji_asdk_to_python.utils.streaming_utils import CV2_Listener, WebRTC_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 
@@ -7,9 +7,9 @@ class RTPManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
         self.stream_id = "default"
-        self.streaming_listener = StreamingListener(width=1920, height=1088)
+        self.streaming_listener = None
 
-    def _remote_start(self):
+    def remote_start(self):
         ip = SocketUtils.getIp()
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.START_RTP_STREAMING,
@@ -41,7 +41,7 @@ class RTPManager:
         assert isinstance(stream_id, str)
         self.stream_id = stream_id
 
-    def _remote_stop(self):
+    def remote_stop(self):
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.STOP_RTP_STREAMING,
             message_class=MessageBuilder.RTP_STREAMING,
@@ -67,6 +67,13 @@ class RTPManager:
             blocking=True,
         )
         return result
+
+
+class CV2_Manager(RTPManager):
+
+    def __init__(self, app_ip):
+        super().__init__(app_ip)
+        self.streaming_listener = CV2_Listener()
 
     def setWidth(self, width):
         """
@@ -116,15 +123,21 @@ class RTPManager:
 
     def startStream(self):
         """
-            Start RTP streaming
+            Start CV2 streaming
         """
-        return self._remote_start()
+        return self.remote_start()
 
     def stopStream(self):
         """
-            Stop RTP streaming
+            Stop CV2 streaming
         """
-        return self._remote_stop()
+        return self.remote_stop()
+
+
+class WebRTC_Manager(RTPManager):
+    def __init__(self, app_ip):
+        super().__init__(app_ip)
+        self.streaming_listener = WebRTC_Listener()
 
 
 class RTMPManager:
@@ -239,22 +252,22 @@ class RTMPManager:
 
 class LiveStreamManager:
     """
-        The manager is used tolive streaming using RTMP and RTP.
+        The manager is used to live streaming using RTMP and RTP protocols over different listeners.
     """
 
     def __init__(self, app_ip):
         self.app_ip = app_ip
 
-    def getRTPManager(self):
+    def getCV2Manager(self):
         """
         Returns:
-            [RTPManager]: An RTPManager instance
+            [CV2_Manager]: An CV2_Manager instance
         """
-        return RTPManager(self.app_ip)
+        return CV2_Manager(self.app_ip)
 
     def getRTMPManager(self):
         """
         Returns:
-            [RTPManager]: An RTMPManager instance
+            [RTMPManager]: An RTMPManager instance
         """
         return RTMPManager(self.app_ip)
