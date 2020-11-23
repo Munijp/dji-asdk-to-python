@@ -6,7 +6,7 @@ import time
 import math
 import threading
 import collections
-from os import sys
+import sys
 from dji_asdk_to_python.errors import CustomError
 from dji_asdk_to_python.flight_controller.virtual_stick.flight_control_data import FlightControlData
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
@@ -192,7 +192,11 @@ class ArucoSingleTracker:
         self._R_flip[1, 1] = -1.0
         self._R_flip[2, 2] = -1.0
 
-        self._aruco_dict = aruco.custom_dictionary_from(20, 4, aruco.getPredefinedDictionary(aruco.DICT_4X4_100))
+        # --- Define the aruco dictionary
+        self._aruco_dict = aruco.custom_dictionary_from(
+            20, 4, aruco.getPredefinedDictionary(aruco.DICT_4X4_100)
+        )
+
         self._parameters = aruco.DetectorParameters_create()
 
     def _rotationMatrixToEulerAngles(self, R):
@@ -248,12 +252,10 @@ class ArucoSingleTracker:
         pitch_camera, roll_camera, yaw_camera = None, None, None
 
         planned_ids = []
-        if not isinstance(ids, None):
+        if ids is not None:
             planned_ids = list(itertools.chain(*ids))
-
         if id_to_find in planned_ids:
             index_id_to_find = planned_ids.index(id_to_find)
-
             marker_found = True
             # -- array of rotation and position of each marker in camera frame
             # -- rvec = [[rvec_1], [rvec_2], ...]    attitude of the marker respect to camera frame
@@ -377,14 +379,12 @@ class ArucoLanding:
             time.sleep(1)
 
     def start(self):
-        result = self.rtp_manager.startStream()
-        print("result startStream %s" % result)
+        self.rtp_manager.startStream()
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
 
         gimbal = self.aircraft.getGimbal()
         gimbal.rotate(-90, 0, 0)
-        print("Gimbal set to -90 degrees")
 
         fc = self.aircraft.getFlightController()
         fc.setVirtualStickModeEnabled(True)
@@ -397,7 +397,7 @@ class ArucoLanding:
         camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2500)
 
         start = time.perf_counter()
-        last_z = sys.maxint
+        last_z = sys.maxsize
         fps = FPS()
 
         while True:

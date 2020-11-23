@@ -2,7 +2,7 @@
 Saves a series of snapshots with the current camera as <name>_<width>_<height>_<nnn>.jpg
 
 Usage example:
-    python examples/calibration/save_snapshots.py --app_ip 192.168.100.203 --folder ./examples/calibration/images --dwidth 1280 --dheight 720 --name apolo
+    python examples/calibration/save_snapshots.py --app_ip 192.168.100.206 --folder ./examples/calibration/images --dwidth 1280 --dheight 720 --name apolo
 
 Buttons:
     q           - quit
@@ -76,7 +76,7 @@ def main():
     # ---- DEFAULT VALUES ---
     SAVE_FOLDER = "."
     FILE_NAME = "snapshot"
-    APP_IP = "192.168.100.203"
+    APP_IP = "192.168.100.206"
     FRAME_WIDTH = 1280
     FRAME_HEIGHT = 720
 
@@ -85,7 +85,7 @@ def main():
         description="Saves snapshot from DJI drone. \n q to quit \n spacebar to save the snapshot")
     parser.add_argument("--folder", default=SAVE_FOLDER, help="Path to the save folder (default: current)")
     parser.add_argument("--name", default=FILE_NAME, help="Picture file name (default: snapshot)")
-    parser.add_argument("--app_ip", default=APP_IP, help="App ip (default: 192.168.100.203)")
+    parser.add_argument("--app_ip", default=APP_IP, help="App ip (default: 192.168.100.206)")
     parser.add_argument("--dwidth", default=FRAME_WIDTH, type=int, help="<width> px (default 1280)")
     parser.add_argument("--dheight", default=FRAME_HEIGHT, type=int, help="<height> px (default 720)")
     args = parser.parse_args()
