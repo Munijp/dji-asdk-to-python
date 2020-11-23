@@ -4,6 +4,7 @@ from dji_asdk_to_python.flight_controller.flight_controller import (
 from dji_asdk_to_python.gimbal.gimbal import Gimbal
 from dji_asdk_to_python.battery.battery import Battery
 from dji_asdk_to_python.camera.camera import Camera
+from dji_asdk_to_python.mission_action.mission_action import MissionAction
 from dji_asdk_to_python.sdk_manager.live_stream_manager import (
     LiveStreamManager
 )
@@ -27,3 +28,6 @@ class Aircraft:
 
     def getCamera(self):
         return Camera(self.app_ip)
+
+    def getMissionAction(self):
+        return MissionAction(self.app_ip)

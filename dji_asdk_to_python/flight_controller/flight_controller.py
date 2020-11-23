@@ -584,3 +584,31 @@ class FlightController:
         fc.setVirtualStickModeEnabled(False)
 
     # ------------------------------- END OF CUSTOM METHODS-------------------
+
+    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=10):
+        """
+        Enable collision avoidance. When enabled, the aircraft will stop and try to go around detected obstacles.
+        """
+        checkParameters(
+            callback=callback, method_name="setCollisionAvoidanceEnabled", timeout=timeout,
+        )
+        enable_str = "true" if enable else "false"
+
+        message = MessageBuilder.build_message(
+            message_method=MessageBuilder.SET_COLLISION_AVOIDANCE_ENABLED,
+            message_class=MessageBuilder.FLIGHT_CONTROLLER,
+            message_data={"enable": enable_str},
+        )
+
+        return_type = DJIError
+
+        blocking = callback is None
+
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=callback,
+            timeout=timeout,
+            return_type=return_type,
+            blocking=blocking,
+        )
