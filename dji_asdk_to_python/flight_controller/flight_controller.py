@@ -592,11 +592,12 @@ class FlightController:
         checkParameters(
             callback=callback, method_name="setCollisionAvoidanceEnabled", timeout=timeout,
         )
+        enable_str = "true" if enable else "false"
 
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_COLLISION_AVOIDANCE_ENABLED,
             message_class=MessageBuilder.FLIGHT_CONTROLLER,
-            message_data={"enable": enable},
+            message_data={"enable": enable_str},
         )
 
         return_type = DJIError

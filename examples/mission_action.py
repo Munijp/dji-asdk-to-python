@@ -12,7 +12,7 @@ coordinate = LocationCoordinate2D(3.3310334728130204, -76.53937525628518)
 
 print(mission_action)
 
-print(mission_action.aircraftYawAction(-180, "false"))
+print(mission_action.aircraftYawAction(-180, False))
 #time.sleep(5)
-print(mission_action.aircraftYawAction(180, "false"))
+print(mission_action.aircraftYawAction(180, False))
 print(mission_action.goToAction(coordinate, 15))

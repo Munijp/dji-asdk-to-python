@@ -52,10 +52,11 @@ class MissionAction:
 
         checkParameters(callback=callback, method_name="aircraftYawAction", timeout=timeout)
 
+        is_absolute_str = "true" if isAbsolute else "false"
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.AIRCRAFT_YAW_ACTION,
             message_class=MessageBuilder.MISSION_ACTION,
-            message_data={"angle": angle, "isAbsolute": isAbsolute},
+            message_data={"angle": angle, "isAbsolute": is_absolute_str},
         )
 
         return_type = DJIError
