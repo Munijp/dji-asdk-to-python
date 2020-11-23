@@ -379,7 +379,7 @@ class ArucoLanding:
             time.sleep(1)
 
     def start(self):
-        self.rtp_manager.startStream()
+        result = self.rtp_manager.startStream()
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
 
@@ -472,10 +472,7 @@ class ArucoLanding:
 
                     if flying is not None and not flying:
 
-                        camera.setExposureMode(ExposureMode.MANUAL)
-                        camera.setISO(ISO.AUTO)
-                        camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
-
+                        camera.setExposureMode(ExposureMode.PROGRAM)
                         fc.setCollisionAvoidanceEnabled(True)
                         self.running = False
                         break
@@ -501,9 +498,8 @@ class ArucoLanding:
                 flying = flight_controller_state.isFlying()
                 print("flying %s" % flying)
                 if flying is not None and not flying:
-                    camera.setExposureMode(ExposureMode.MANUAL)
-                    camera.setISO(ISO.AUTO)
-                    camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+                    camera.setExposureMode(ExposureMode.PROGRAM)
+                    fc.setCollisionAvoidanceEnabled(True)
                     self.running = False
                     break
         gimbal.rotate(0, 0, 0)
