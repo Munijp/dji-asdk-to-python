@@ -1,3 +1,5 @@
+import string
+import random
 from dji_asdk_to_python.utils.streaming_utils import CV2_Listener, WebRTC_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
@@ -6,18 +8,19 @@ from dji_asdk_to_python.utils.message_builder import MessageBuilder
 class RTPManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
-        self.stream_id = "default"
+        letters = [c for c in string.ascii_lowercase]
+        self.stream_id = "".join(random.choice(letters) for i in range(10))
         self.streaming_listener = None
 
     def remote_start(self):
+        assert self.streaming_listener is not None
+        assert self.streaming_listener.port is not None
         ip = SocketUtils.getIp()
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.START_RTP_STREAMING,
             message_class=MessageBuilder.RTP_STREAMING,
             message_data={"port": self.streaming_listener.port, "ip": ip, "stream_id": self.stream_id},
         )
-
-        self.streaming_listener.start()  # TODO check for pipe state
 
         def callback(result):
             if isinstance(result, bool) and result:
@@ -125,7 +128,9 @@ class CV2_Manager(RTPManager):
         """
             Start CV2 streaming
         """
-        return self.remote_start()
+        res = self.remote_start()
+        self.streaming_listener.start()
+        return res
 
     def stopStream(self):
         """
@@ -138,6 +143,10 @@ class WebRTC_Manager(RTPManager):
     def __init__(self, app_ip):
         super().__init__(app_ip)
         self.streaming_listener = WebRTC_Listener()
+
+    def start(self, signalig_server, secret_key):
+        self.remote_start()
+        self.streaming_listener.start(signalig_server, secret_key)
 
 
 class RTMPManager:
@@ -264,6 +273,13 @@ class LiveStreamManager:
             [CV2_Manager]: An CV2_Manager instance
         """
         return CV2_Manager(self.app_ip)
+
+    def getWebRTC_Manager(self):
+        """
+        Returns:
+            [WebRTC_Manager]: An WebRTC_Manager instance
+        """
+        return WebRTC_Manager(self.app_ip)
 
     def getRTMPManager(self):
         """
