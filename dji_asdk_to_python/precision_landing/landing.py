@@ -5,7 +5,6 @@ import cv2
 import time
 import math
 import threading
-import collections
 import sys
 from dji_asdk_to_python.errors import CustomError
 from dji_asdk_to_python.flight_controller.virtual_stick.flight_control_data import FlightControlData
@@ -13,18 +12,7 @@ from dji_asdk_to_python.flight_controller.flight_controller_state import FlightC
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
-
-
-class FPS:
-    def __init__(self, avarageof=50):
-        self.frametimestamps = collections.deque(maxlen=avarageof)
-
-    def __call__(self):
-        self.frametimestamps.append(time.time())
-        if(len(self.frametimestamps) > 1):
-            return len(self.frametimestamps) / (self.frametimestamps[-1] - self.frametimestamps[0])
-        else:
-            return 0.0
+from dji_asdk_to_python.utils.FPS import FPS
 
 # This file is part of IvPID.
 # Copyright (C) 2015 Ivmech Mechatronics Ltd. <bilgi@ivmech.com>
