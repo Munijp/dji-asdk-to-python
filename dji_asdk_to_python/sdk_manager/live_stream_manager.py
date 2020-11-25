@@ -5,11 +5,8 @@ import cv2
 from dji_asdk_to_python.utils.streaming_utils import CV2_Listener, WebRTC_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
-from dji_asdk_to_python.utils.FPS import FPS
-
-import gi
-gi.require_version("Gst", "1.0")
-from gi.repository import Gst  # noqa: E402
+from webrtc_streaming.server import VideoSource
+from webrtc_streaming.update_frame import update_frame
 
 
 class RTPManager:
@@ -149,7 +146,7 @@ class CV2_Manager(RTPManager):
 class WebRTC_Manager(RTPManager):
     def __init__(self, app_ip):
         super().__init__(app_ip)
-        self.streaming_listener = WebRTC_Listener()
+        self.streaming_listener = WebRTC_Listener(VideoSource.H264_RTP)
 
     def start(self, signalig_server, secret_key):
         self.remote_start()
@@ -160,13 +157,10 @@ class CV2_With_WebRTC_Manager(RTPManager):
     def __init__(self, app_ip):
         super().__init__(app_ip)
         self.streaming_listener = CV2_Listener()
-        self.webrtc_listener = WebRTC_Listener()
+        self.webrtc_listener = WebRTC_Listener(VideoSource.CV2)
         self.streaming = False
-        self.w = 1280
-        self.h = 720
-        self.fps = 15
-        self.duration = 1 / self.fps * Gst.SECOND  # duration of a frame in nanoseconds
-        self.frame_counter = 0
+        self.w = int(1280)
+        self.h = int(720)
 
     def start(self, signalig_server, secret_key):
         self.thread_process_cv2_frames = threading.Thread(target=self._process_cv2_frames, args=[])
@@ -183,42 +177,15 @@ class CV2_With_WebRTC_Manager(RTPManager):
         self.streaming_listener.start()
         self.streaming = True
 
-        launch_string = 'appsrc name=source is-live=true format=GST_FORMAT_TIME ' \
-                        ' caps=video/x-raw,format=BGR,width=%s,height=%s,framerate=%s/1 ' \
-                        '! videoconvert ! video/x-raw,format=I420 ' \
-                        '! x264enc speed-preset=ultrafast tune=zerolatency byte-stream=true ' \
-                        '! h264parse ! rtph264pay config-interval=-1 pt=96 ! udpsink host=127.0.0.1 port=%s sync=false' % (
-                            self.w, self.h, self.fps, self.webrtc_listener.port)
-
-        pipeline = Gst.parse_launch(launch_string)
-        appsrc = pipeline.get_child_by_name('source')
-        pipeline.set_state(Gst.State.PLAYING)
-
-        fps = FPS()
-
-        print(self.streaming_listener.port)
-        print(self.webrtc_listener.port)
-
         while self.streaming:
             frame = self.streaming_listener.getFrame()
 
             if frame is None:
                 continue
 
-            # print("FPS %s" % fps())
-
-            # frame = cv2.resize(frame, (self.w, self.h), interpolation=cv2.INTER_AREA)
-            data = frame.tostring()
-            buf = Gst.Buffer.new_allocate(None, len(data), None)
-            buf.fill(0, data)
-            buf.duration = self.duration
-
-            self.frame_counter += 1
-            retval = appsrc.emit('push-buffer', buf)
-            if retval != Gst.FlowReturn.OK:
-                print(retval)
-
-        pipeline.set_state(Gst.State.NULL)
+            frame = cv2.resize(frame, (self.w, self.h), interpolation=cv2.INTER_AREA)
+            height, width, _ = frame.shape
+            update_frame(data=frame.tobytes(), width=width, height=height)
 
 
 class RTMPManager:

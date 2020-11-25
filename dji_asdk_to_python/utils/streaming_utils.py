@@ -19,7 +19,8 @@ def find_free_port():
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
         s.bind(('localhost', 0))
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        return s.getsockname()[1]
+        port = s.getsockname()[1]
+        return port
 
 
 class CV2_Listener(object):
@@ -111,8 +112,9 @@ class CV2_Listener(object):
 
 
 class WebRTC_Listener:
-    def __init__(self):
+    def __init__(self, video_source):
         self.port = find_free_port()
+        self.video_source = video_source
 
     def start(self, signaling_server, secret_key):
-        start_webrtc_server(signaling_server, secret_key, self.port)
+        start_webrtc_server(signaling_server, secret_key, self.port, self.video_source)
