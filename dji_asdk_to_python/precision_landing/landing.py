@@ -13,7 +13,9 @@ from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
 from dji_asdk_to_python.utils.FPS import FPS
-
+from dji_asdk_to_python.flight_controller.virtual_stick.control_mode import (
+    VerticalControlMode
+)
 # This file is part of IvPID.
 # Copyright (C) 2015 Ivmech Mechatronics Ltd. <bilgi@ivmech.com>
 #
@@ -378,6 +380,7 @@ class ArucoLanding:
         fc.setVirtualStickModeEnabled(True)
         fcd = FlightControlData()
         fc.setCollisionAvoidanceEnabled(False)
+        fc.setVerticalControlMode(VerticalControlMode.VELOCITY)
 
         camera = self.aircraft.getCamera()
 
@@ -481,6 +484,7 @@ class ArucoLanding:
                 if last_z < 300 and (end - start) > 10:
                     fc.setVirtualStickModeEnabled(True)
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
+                    gimbal.rotate(-90, 0, 0)
                     self.resetPid()
                     end = time.perf_counter()
                     start = time.perf_counter()

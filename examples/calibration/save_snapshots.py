@@ -50,7 +50,7 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
     h = height
 
     fileName = "%s/%s_%d_%d_" % (folder, name, w, h)
-
+    cv2.namedWindow("output", cv2.WINDOW_NORMAL)
     while True:
         frame = cv2_manager.getFrame()
 
@@ -58,7 +58,6 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
             continue
 
         cv2.imshow('output', frame)
-
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
