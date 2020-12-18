@@ -48,12 +48,16 @@ class MessageBuilder:
     STOP_STREAM = "stopStream"
     ROTATE = "rotate"
     GET_CHARGE_REMAINING_IN_PERCENT = "getChargeRemainingInPercent"
+
+    #CAMERA
     GET_EXPOSURE_MODE = "getExposureMode"
     SET_EXPOSURE_MODE = "setExposureMode"
     GET_ISO = "getISO"
     SET_ISO = "setISO"
     GET_SHUTTER_SPEED = "getShutterSpeed"
     SET_SHUTTER_SPEED = "setShutterSpeed"
+    SET_DISPLAY_MODE = "setDisplayMode"
+
     GO_TO_ACTION = "goToAction"
     AIRCRAFT_YAW_ACTION = "aircraftYawAction"
     SET_COLLISION_AVOIDANCE_ENABLED = "setCollisionAvoidanceEnabled"
