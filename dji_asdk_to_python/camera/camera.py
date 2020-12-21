@@ -5,6 +5,7 @@ from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
+from dji_asdk_to_python.camera.display_mode import DisplayMode
 
 
 class Camera:
@@ -214,4 +215,33 @@ class Camera:
             timeout=timeout,
             return_type=return_type,
             blocking=blocking,
+        )
+
+    def setDisplayMode(self, display_mode, callback=None, timeout=10):
+        """
+            Sets the display mode to coordinate the video feeds from both the visual camera and the thermal camera.
+            Only supported by XT2 camera and Mavic 2 Enterprise Dual Thermal Camera.
+        """
+
+        checkParameters(callback=callback, method_name="setDisplayMode", timeout=timeout)
+
+        #assert isinstance(display_mode, DisplayMode)
+
+        message = MessageBuilder.build_message(
+            message_method = MessageBuilder.SET_DISPLAY_MODE,
+            message_class = MessageBuilder.CAMERA,
+            message_data = {"display_mode" : display_mode}
+        )
+
+        return_type = DJIError
+
+        blocking = callback is None
+
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=callback,
+            timeout=timeout,
+            return_type=DJIError,
+            blocking=blocking
         )
