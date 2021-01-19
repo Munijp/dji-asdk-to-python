@@ -18,6 +18,7 @@ from dji_asdk_to_python.flight_controller.flight_controller_state import (
 
 
 def process_waypoint_mission_operator_listener(listener, message):
+    print("wpmolistener", message)
     method = message["method"]
     if method == "onExecutionStart":
         onExecutionStart = listener.onExecutionStart

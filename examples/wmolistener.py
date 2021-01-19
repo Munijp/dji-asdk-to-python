@@ -8,7 +8,7 @@ This example tests:
     - Waits for all the waypoints of a mission to be uploaded
 """
 
-APP_IP = "192.168.0.180"
+APP_IP = "192.168.100.206"
 
 wpmoperator = WaypointMissionOperator(app_ip=APP_IP)
 wpmolistener = None
