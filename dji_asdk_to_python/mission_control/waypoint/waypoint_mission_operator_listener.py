@@ -169,7 +169,7 @@ class WaypointMissionOperatorListener:
         self.onExecutionUpdate = onExecutionUpdate
         self.onExecutionFinish = onExecutionFinish
 
-        self.running = False
+        self.running = True
         self.sock = None
 
     def _close(self):
