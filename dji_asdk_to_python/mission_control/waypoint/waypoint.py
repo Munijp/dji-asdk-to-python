@@ -29,7 +29,7 @@ class Waypoint:
     MAX_CORNER_RADIUS = 1000.0
     MIN_GIMBAL_PITCH = -135.0
     MAX_GIMBAL_PITCH = 45.0
-    MIN_SPEED = 0.0
+    MIN_SPEED = 1.0
     MAX_SPEED = 15.0
 
     def __init__(self, latitude, longitude, altitude):
@@ -41,7 +41,7 @@ class Waypoint:
         self._action_repeat_times = 1
         self._action_timeout_in_seconds = 60
         self._corner_radius_in_meters = 0.2
-        self._speed = 0
+        self._speed = Waypoint.MIN_SPEED
 
     def clamp(self, n, minn, maxn):
         return max(min(maxn, n), minn)
