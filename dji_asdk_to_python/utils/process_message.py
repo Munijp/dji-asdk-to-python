@@ -69,6 +69,8 @@ def data_to_battery_state(data):
 
 
 def process_return_type(server_message, return_type):
+    from dji_asdk_to_python.mission_control.waypoint import WaypointMissionState
+
     if return_type == FlightControllerState:
         result = data_to_flight_controller_state(server_message["data"])
     elif return_type == BatteryState:
@@ -97,6 +99,9 @@ def process_return_type(server_message, return_type):
     elif return_type == ShutterSpeed:
         data = server_message["data"]["shutterSpeed"]
         result = ShutterSpeed[data]
+    elif return_type == WaypointMissionState:
+        data = server_message["data"]["currentState"]
+        result = WaypointMissionState[data]
     elif return_type == DJIError:
         result = None
     elif return_type is None:

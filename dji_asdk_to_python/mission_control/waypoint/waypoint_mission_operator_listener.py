@@ -27,6 +27,8 @@ class WaypointMissionState(enum.Enum):
     RECOVERING = "RECOVERING"
     UNKNOWN = "UNKNOWN"
 
+    def __str__(self):
+        return self.name
 
 class WaypointMissionExecuteState(enum.Enum):
     """

@@ -155,6 +155,36 @@ class WaypointMissionOperator:
             return_type=return_type,
         )
 
+    # ------------------------ STATE --------------------
+
+    def getCurrentState(self, timeout=10):
+        """
+        Returns:
+            [WaypointMissionState]: The current state of the operator.
+        """
+
+        checkParameters(callback=None, method_name="getCurrentState", timeout=timeout)
+
+        message = MessageBuilder.build_message(
+            message_method=MessageBuilder.GET_CURRENT_STATE,
+            message_class=MessageBuilder.WAYPOINT_MISSION_OPERATOR,
+            message_data=None,
+        )
+
+        from dji_asdk_to_python.mission_control.waypoint import WaypointMissionState
+        return_type = WaypointMissionState
+
+        blocking = True
+
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=None,
+            timeout=timeout,
+            return_type=return_type,
+            blocking=blocking,
+        )
+
     # ------------------------------ LISTENER ------------------------------
     def addListener(self, listener):
         """

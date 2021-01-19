@@ -17,6 +17,7 @@ class MessageBuilder:
     UPLOAD_MISSION = "uploadMission"
     RETRY_UPLOAD_MISSION = "retryUploadMission"
     GET_WAYPOINT_MISSION_OPERATOR = "getWaypointMissionOperator"
+    GET_CURRENT_STATE = "getCurrentState"
     START_MISSION = "startMission"
     SET_AUTO_FLIGHT_SPEED = "setAutoFlightSpeed"
     WAYPOINT_COUNT = "waypointCount"
