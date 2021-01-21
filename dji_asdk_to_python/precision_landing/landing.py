@@ -424,7 +424,7 @@ class ArucoLanding:
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
             if marker_found:
-                # print("FPS %s" % fps())
+                print("FPS marker detection %s" % fps())
                 start = time.perf_counter()
                 last_z = z_marker
 
@@ -491,7 +491,7 @@ class ArucoLanding:
 
                 flight_controller_state = fc.getState()
                 flying = flight_controller_state.isFlying()
-                print("flying %s" % flying)
+                #print("flying %s" % flying)
                 if flying is not None and not flying:
                     camera.setExposureMode(ExposureMode.PROGRAM)
                     fc.setCollisionAvoidanceEnabled(True)
