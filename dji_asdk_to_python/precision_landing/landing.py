@@ -424,7 +424,7 @@ class ArucoLanding:
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
             if marker_found:
-                print("FPS %s" % fps())
+                # print("FPS %s" % fps())
                 start = time.perf_counter()
                 last_z = z_marker
 
@@ -480,7 +480,7 @@ class ArucoLanding:
                 fcd.setRoll(0)
                 fcd.setVerticalThrottle(0)
             else:
-                print("elapsed %s last_z %s" % (end - start, last_z))
+                # print("elapsed %s last_z %s" % (end - start, last_z))
                 if last_z < 300 and (end - start) > 10:
                     fc.setVirtualStickModeEnabled(True)
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
