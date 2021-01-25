@@ -73,7 +73,7 @@ Install specific release example
 
 .. code:: bash
 
-    $ pip install git+https://github.com/PSBPOSAS/dji-asdk-to-python.git@v0.1.0
+    $ pip install git+https://github.com/PSBPOSAS/dji-asdk-to-python.git@v0.1.1
 
 Uninstall
 ---------
