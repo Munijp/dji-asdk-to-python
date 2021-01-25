@@ -1,3 +1,2 @@
 opencv-contrib-python==4.4.0.46
 PyGObject==3.38.0
-webrtc-streaming==0.1.6
