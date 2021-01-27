@@ -9,4 +9,4 @@ SECRET_KEY = "webrtc_testing"
 aircraft = Aircraft(APP_IP)
 streaming_manager = aircraft.getLiveStreamManager()
 webrtc_manager = streaming_manager.getWebRTC_Manager()
-webrtc_manager.start(SIGNALING_SERVER, SECRET_KEY)
+webrtc_manager.start_streaming(SIGNALING_SERVER, SECRET_KEY)

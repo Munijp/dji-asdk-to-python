@@ -1,12 +1,9 @@
 import string
 import random
-import threading
-import cv2
-from dji_asdk_to_python.utils.streaming_utils import CV2_Listener, WebRTC_Listener
+from dji_asdk_to_python.utils.streaming_utils import CV2_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
-from webrtc_streaming.server import VideoSource
-from webrtc_streaming.update_frame import update_frame
+from webrtc_streaming.streamer import start_streaming as start_webrtc_streaming
 
 
 class RTPManager:
@@ -146,46 +143,24 @@ class CV2_Manager(RTPManager):
 class WebRTC_Manager(RTPManager):
     def __init__(self, app_ip):
         super().__init__(app_ip)
-        self.streaming_listener = WebRTC_Listener(VideoSource.H264_RTP)
-
-    def start(self, signalig_server, secret_key):
-        self.remote_start()
-        self.streaming_listener.start(signalig_server, secret_key)
-
-
-class CV2_With_WebRTC_Manager(RTPManager):
-    def __init__(self, app_ip):
-        super().__init__(app_ip)
         self.streaming_listener = CV2_Listener()
-        self.webrtc_listener = WebRTC_Listener(VideoSource.CV2)
         self.streaming = False
-        self.w = int(1280)
-        self.h = int(720)
 
-    def start(self, signalig_server, secret_key):
-        self.thread_process_cv2_frames = threading.Thread(target=self._process_cv2_frames, args=[])
-        self.thread_process_cv2_frames.start()
-        self.webrtc_listener.start(signalig_server, secret_key)
-
-    def stop(self):
-        self.streaming = False
-        self.thread_process_cv2_frames.join()
-        self.thread_process_cv2_frames = None
-
-    def _process_cv2_frames(self):
+    def start_streaming(self, signaling_server, secret_key):
         assert self.remote_start()
         self.streaming_listener.start()
-        self.streaming = True
 
-        while self.streaming:
-            frame = self.streaming_listener.getFrame()
+        class _VideoCapture:
+            def __init__(self, streaming_listener):
+                self.streaming_listener = streaming_listener
 
-            if frame is None:
-                continue
+            def read(self):
+                frame = self.streaming_listener.getFrame()
+                return frame is not None, frame
 
-            frame = cv2.resize(frame, (self.w, self.h), interpolation=cv2.INTER_AREA)
-            height, width, _ = frame.shape
-            update_frame(data=frame.tobytes(), width=width, height=height)
+        start_webrtc_streaming(video_capture=_VideoCapture(self.streaming_listener),
+                               signaling_server=signaling_server,
+                               secret_key=secret_key)
 
 
 class RTMPManager:
@@ -319,13 +294,6 @@ class LiveStreamManager:
             [WebRTC_Manager]: An WebRTC_Manager instance
         """
         return WebRTC_Manager(self.app_ip)
-
-    def getCV2_With_WebRTC_Manager(self):
-        """
-        Returns:
-            [CV2_With_WebRTC_Manager]: An CV2_With_WebRTC_Manager instance
-        """
-        return CV2_With_WebRTC_Manager(self.app_ip)
 
     def getRTMPManager(self):
         """

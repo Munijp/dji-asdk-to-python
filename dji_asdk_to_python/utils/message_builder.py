@@ -50,7 +50,7 @@ class MessageBuilder:
     ROTATE = "rotate"
     GET_CHARGE_REMAINING_IN_PERCENT = "getChargeRemainingInPercent"
 
-    #CAMERA
+    # CAMERA
     GET_EXPOSURE_MODE = "getExposureMode"
     SET_EXPOSURE_MODE = "setExposureMode"
     GET_ISO = "getISO"

@@ -30,6 +30,7 @@ class WaypointMissionState(enum.Enum):
     def __str__(self):
         return self.name
 
+
 class WaypointMissionExecuteState(enum.Enum):
     """
     Current waypoint mission state.

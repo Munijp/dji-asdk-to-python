@@ -491,7 +491,6 @@ class ArucoLanding:
 
                 flight_controller_state = fc.getState()
                 flying = flight_controller_state.isFlying()
-                #print("flying %s" % flying)
                 if flying is not None and not flying:
                     camera.setExposureMode(ExposureMode.PROGRAM)
                     fc.setCollisionAvoidanceEnabled(True)

@@ -1,5 +1,4 @@
 from contextlib import closing
-from webrtc_streaming.server import start as start_webrtc_server
 import socket
 import numpy as np
 import random
@@ -109,12 +108,3 @@ class CV2_Listener(object):
     def stop(self):
         self.streaming = False
         self.video_pipe.set_state(Gst.State.NULL)
-
-
-class WebRTC_Listener:
-    def __init__(self, video_source):
-        self.port = find_free_port()
-        self.video_source = video_source
-
-    def start(self, signaling_server, secret_key):
-        start_webrtc_server(signaling_server, secret_key, self.port, self.video_source)
