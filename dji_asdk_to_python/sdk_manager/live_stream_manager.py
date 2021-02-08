@@ -3,7 +3,6 @@ import random
 from dji_asdk_to_python.utils.streaming_utils import CV2_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
-from webrtc_streaming.streamer import start_streaming as start_webrtc_streaming
 
 
 class RTPManager:
@@ -140,29 +139,6 @@ class CV2_Manager(RTPManager):
         return self.remote_stop()
 
 
-class WebRTC_Manager(RTPManager):
-    def __init__(self, app_ip):
-        super().__init__(app_ip)
-        self.streaming_listener = CV2_Listener()
-        self.streaming = False
-
-    def start_streaming(self, signaling_server, secret_key):
-        assert self.remote_start()
-        self.streaming_listener.start()
-
-        class _VideoCapture:
-            def __init__(self, streaming_listener):
-                self.streaming_listener = streaming_listener
-
-            def read(self):
-                frame = self.streaming_listener.getFrame()
-                return frame is not None, frame
-
-        start_webrtc_streaming(video_capture=_VideoCapture(self.streaming_listener),
-                               signaling_server=signaling_server,
-                               secret_key=secret_key)
-
-
 class RTMPManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
@@ -287,13 +263,6 @@ class LiveStreamManager:
             [CV2_Manager]: An CV2_Manager instance
         """
         return CV2_Manager(self.app_ip)
-
-    def getWebRTC_Manager(self):
-        """
-        Returns:
-            [WebRTC_Manager]: An WebRTC_Manager instance
-        """
-        return WebRTC_Manager(self.app_ip)
 
     def getRTMPManager(self):
         """
