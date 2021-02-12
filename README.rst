@@ -38,19 +38,48 @@ Features
 Dependencies
 ------------
 
-Gstreamer
+OpenCV
 ~~~~~~~~~
-* https://pygobject.readthedocs.io/en/latest/getting_started.html#ubuntu-logo-ubuntu-debian-logo-debian
-* https://gstreamer.freedesktop.org/documentation/installing/on-linux.html?gi-language=c#install-gstreamer-on-fedora
-
 .. code:: bash
 
-    $ sudo apt-get update
-    $ sudo apt install -y libgirepository1.0-dev gcc libcairo2-dev pkg-config python3-dev python3.8-dev gir1.2-gtk-3.0 
-    $ sudo apt-get install -y libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
-    $ sudo apt install -y libopus-dev libvpx-dev libsrtp2-dev
-    $ sudo apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
-Install
+    # Remove previous OpenCV
+    $ sudo apt-get purge libopencv*
+    
+    # Create and activate virtual environment
+    $ ENV_NAME=dji_asdk_to_python_env
+    $ cd $HOME && mkdir -p .virtualenvs && cd .virtualenvs
+    $ virtualenv $ENV_NAME --python=python3.8
+    $ source $ENV_NAME/bin/activate
+    $ pip install numpy==1.20.1
+
+    # Build OpenCV (with activated virtual environment)
+    $ cd $HOME
+    $ git clone https://github.com/opencv/opencv_contrib.git
+    $ cd opencv && git checkout tags/4.5.1 && cd ..
+
+    $ git clone https://github.com/opencv/opencv.git
+    $ cd opencv && git checkout tags/4.5.1 && mkdir build && cd build
+
+    $ cmake -D WITH_CUDA=ON \
+            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+            -D PYTHON_EXECUTABLE=/home/$USER/.virtualenvs/$ENV_NAME/bin/python \
+            -D WITH_GSTREAMER=ON \
+            -D WITH_LIBV4L=ON \
+            -D BUILD_opencv_python2=OFF \
+            -D BUILD_opencv_python3=ON \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_EXAMPLES=OFF \
+            -D CMAKE_BUILD_TYPE=RELEASE \
+            -D CMAKE_INSTALL_PREFIX=/usr/local ..
+
+    # Make sure python path exists
+    $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.6/site-packages
+    $ ln -s /usr/local/lib/python3.8/site-packages/cv2/python-3.8/cv2.cpython-38-aarch64-linux-gnu.so cv2.so
+    
+    # Check OpenCV install
+    $ python -c "import cv2; print(cv2.__version__)"
+
 -------
 
 Install PyPI
