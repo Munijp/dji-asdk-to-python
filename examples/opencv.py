@@ -5,14 +5,14 @@ from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.errors import CustomError
 
 
-APP_IP = "192.168.100.206"
+APP_IP = "192.168.100.203"
 STREAMING_DURATION = 1000  # seconds
 
 aircraft = Aircraft(APP_IP)
 streaming_manager = aircraft.getLiveStreamManager()
 cv2_manager = streaming_manager.getCV2Manager()
-cv2_manager.setWidth(1920)
-cv2_manager.setHeigth(1080)
+cv2_manager.setWidth(int(1920 / 2))
+cv2_manager.setHeigth(int(1080 / 2))
 cv2_manager.set_stream_id("testing")
 result = cv2_manager.startStream()
 print("result startStream %s" % result)

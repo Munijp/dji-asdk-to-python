@@ -1,2 +1,1 @@
-opencv-contrib-python==4.5.1.48
-PyGObject==3.38.0
+
