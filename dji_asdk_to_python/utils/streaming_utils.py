@@ -47,3 +47,4 @@ class CV2_Listener(object):
     def stop(self):
         self.cap.release()
         self.streaming = False
+
