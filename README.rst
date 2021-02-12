@@ -72,6 +72,9 @@ OpenCV
             -D BUILD_EXAMPLES=OFF \
             -D CMAKE_BUILD_TYPE=RELEASE \
             -D CMAKE_INSTALL_PREFIX=/usr/local ..
+    $ make -j4 # use 4 CPU cores
+    $ sudo make install
+    $ sudo ldconfig
 
     # Make sure python path exists
     $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.6/site-packages
