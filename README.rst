@@ -81,7 +81,7 @@ OpenCV
     $ ln -s /usr/local/lib/python3.8/site-packages/cv2/python-3.8/cv2.cpython-38-aarch64-linux-gnu.so cv2.so
     
     # Check OpenCV install
-    $ python -c "import cv2; print(cv2.__version__)"
+    $ python -c "import cv2; print(cv2.getBuildInformation());" | grep GStreamer
 
 -------
 
