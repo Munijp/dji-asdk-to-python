@@ -78,6 +78,9 @@ class CV2_Manager(RTPManager):
         super().__init__(app_ip)
         self.streaming_listener = CV2_Listener()
 
+    def getStreamingListener(self):
+        return self.streaming_listener
+
     def setWidth(self, width):
         """
         Set frames width

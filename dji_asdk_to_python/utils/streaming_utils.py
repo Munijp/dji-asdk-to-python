@@ -48,3 +48,5 @@ class CV2_Listener(object):
         self.cap.release()
         self.streaming = False
 
+    def getVideoCapture(self):
+        return self.cap
