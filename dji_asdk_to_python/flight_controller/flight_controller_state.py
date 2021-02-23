@@ -33,6 +33,7 @@ class FlightControllerState:
         self._go_home_execution_state = None
         self._flight_time_in_seconds = None
         self._flight_mode = None
+        self._gps_signal_level = None
 
     # -------------------------------- FLIGHT INFORMATION ------------------------------------
 
@@ -119,3 +120,13 @@ class FlightControllerState:
             [FlightMode]:	An enum value of FlightMode.
         """
         return self._flight_mode
+
+    # --------------------------------------- FLIGHT MODE ------------------------------------------
+
+    def getGPSSignalLevel(self):
+        """
+        Gets the aircraft's current GPS signal quality.
+        Returns:
+            [GPSSignalLevel]:	An enum value of GPSSignalLevel.
+        """
+        return self._gps_signal_level

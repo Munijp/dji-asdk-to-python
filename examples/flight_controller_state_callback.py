@@ -29,6 +29,7 @@ def onUpdate(callback, flight_controller_state):
     print("yaw %s " % aircraft_attitude.yaw)
     print("GoHomeExecutionState %s" % flight_controller_state.getGoHomeExecutionState())
     print("getFlightMode %s" % flight_controller_state.getFlightMode())
+    print("getGPSSignalLevel %s" % flight_controller_state.getGPSSignalLevel())
 
     if  flight_controller_state.isFlying():
         result = fc.removeStateCallback(callback)

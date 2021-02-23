@@ -4,7 +4,7 @@ from dji_asdk_to_python.flight_controller.flight_controller_state import (
 )
 
 
-APP_IP = "192.168.100.206"
+APP_IP = "192.168.100.203"
 
 drone = Aircraft(APP_IP)
 fc = drone.getFlightController()
@@ -30,3 +30,4 @@ print("roll %s " % aircraft_attitude.roll)
 print("yaw %s " % aircraft_attitude.yaw)
 print("GoHomeExecutionState %s" % flight_controller_state.getGoHomeExecutionState())
 print("getFlightMode %s" % flight_controller_state.getFlightMode())
+print("getGPSSignalLevel %s" % flight_controller_state.getGPSSignalLevel())

@@ -1,3 +1,4 @@
+from dji_asdk_to_python.flight_controller.gps_signal_level import GPSSignalLevel
 from dji_asdk_to_python.battery.battery_state import BatteryState
 from .message_builder import MessageBuilder
 from dji_asdk_to_python.utils.shared import TrialContextManager
@@ -42,6 +43,7 @@ def data_to_flight_controller_state(data):
 
     go_home_execution_state = message["go_home_execution_state"]
     flight_mode = message["flight_mode"]
+    gps_signal_level = message["gps_level"]
 
     fcs = FlightControllerState()
     fcs._aircraft_location = LocationCoordinate3D(
@@ -57,7 +59,10 @@ def data_to_flight_controller_state(data):
     trial = TrialContextManager()
     with trial: fcs._go_home_execution_state = GoHomeExecutionState(go_home_execution_state)
     fcs._flight_time_in_seconds = flight_time_in_seconds
-    fcs._flight_mode = FlightMode(flight_mode)
+    fcs._flight_mode = FlightMode.UNKNOWN
+    with trial: fcs._flight_mode = FlightMode(flight_mode)
+    fcs._gps_signal_level = GPSSignalLevel.NONE
+    with trial: fcs._gps_signal_level = GPSSignalLevel(gps_signal_level)
     return fcs
 
 
