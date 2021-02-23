@@ -52,7 +52,8 @@ def data_to_flight_controller_state(data):
     fcs._velocity_x = velocity_x
     fcs._velocity_y = velocity_y
     fcs._velocity_z = velocity_z
-    fcs._go_home_execution_state = GoHomeExecutionState(go_home_execution_state)
+    fcs._go_home_execution_state = GoHomeExecutionState.UNKNOWN
+    fcs._go_home_execution_state = with trial: GoHomeExecutionState(go_home_execution_state)
     fcs._flight_time_in_seconds = flight_time_in_seconds
     fcs._flight_mode = FlightMode(flight_mode)
     return fcs
