@@ -293,7 +293,7 @@ class FlightController:
         )
 
     def sendVirtualStickFlightControlData(
-        self, flight_control_data, callback=None, timeout=0
+        self, flight_control_data, callback=None, timeout=1
     ):
         """
         Sends flight control data using virtual stick commands.

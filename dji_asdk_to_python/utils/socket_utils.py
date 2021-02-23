@@ -85,6 +85,7 @@ class SocketUtils:
         except json.JSONDecodeError as e:
             server_message = JsonError(
                 "%s is malformed: %s" % (server_message, e))
+        sock.close()
         return server_message
 
     @staticmethod
@@ -122,12 +123,14 @@ class SocketUtils:
 
         if server_message is None:
             error = CommunicationError("Socket %s returns None" % sock)
+            sock.close()
             if callback:
                 return callback(error)
             else:
                 return error
 
         if isinstance(server_message, CustomError):
+            sock.close()
             if callback:
                 return callback(server_message)
             else:
