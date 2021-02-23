@@ -5,3 +5,7 @@ def checkParameters(callback, method_name, timeout):
         raise Exception("%s: timeout is not an integer" % method_name)
     if timeout < 0:
         raise Exception("%s: timeout must be greater or equal to 0" % method_name)
+
+class TrialContextManager:
+    def __enter__(self): pass
+    def __exit__(self, *args): return True

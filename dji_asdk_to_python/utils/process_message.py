@@ -1,5 +1,6 @@
 from dji_asdk_to_python.battery.battery_state import BatteryState
 from .message_builder import MessageBuilder
+from dji_asdk_to_python.utils.shared import TrialContextManager
 from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
@@ -53,6 +54,7 @@ def data_to_flight_controller_state(data):
     fcs._velocity_y = velocity_y
     fcs._velocity_z = velocity_z
     fcs._go_home_execution_state = GoHomeExecutionState.UNKNOWN
+    trial = TrialContextManager()
     with trial: fcs._go_home_execution_state = GoHomeExecutionState(go_home_execution_state)
     fcs._flight_time_in_seconds = flight_time_in_seconds
     fcs._flight_mode = FlightMode(flight_mode)
