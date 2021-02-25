@@ -3,6 +3,8 @@ import socket
 import numpy as np
 import random
 import string
+import threading
+import time
 
 import os
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
@@ -17,11 +19,34 @@ def find_free_port():
         return port
 
 
+class VideoCaptureWithoutBuffer():
+    def __init__(self, cap):
+        self.cap = cap
+        self.frame = None
+        self.streaming = True
+        t = threading.Thread(target=self._reader, args=[])
+        t.start()
+
+    def _reader(self):
+        while self.streaming:
+            ret, frame = self.cap.read()
+            if ret:
+                self.frame = frame
+
+    def read(self):
+        return self.frame is not None, self.frame
+
+    def release(self):
+        self.streaming = False
+        self.cap.release()
+
+
 class CV2_Listener(object):
-    def __init__(self, width=1920, height=1080, port=None):
+    def __init__(self, width=1920, height=1080, port=None, with_buffer=True):
         self.width = width
         self.height = height
         self.streaming = False
+        self.with_buffer = with_buffer
 
         if port is None:
             self.port = find_free_port()
@@ -37,7 +62,10 @@ class CV2_Listener(object):
 
 
     def start(self):
-        self.cap = cv2.VideoCapture(self.gst_str, cv2.CAP_GSTREAMER)
+        if self.with_buffer:
+            self.cap = cv2.VideoCapture(self.gst_str, cv2.CAP_GSTREAMER)
+        else:
+            self.cap = VideoCaptureWithoutBuffer(cv2.VideoCapture(self.gst_str, cv2.CAP_GSTREAMER))
         self.streaming = True
 
     def getFrame(self):

@@ -74,9 +74,9 @@ class RTPManager:
 
 class CV2_Manager(RTPManager):
 
-    def __init__(self, app_ip):
+    def __init__(self, app_ip, with_buffer=True):
         super().__init__(app_ip)
-        self.streaming_listener = CV2_Listener()
+        self.streaming_listener = CV2_Listener(with_buffer)
 
     def getStreamingListener(self):
         return self.streaming_listener
@@ -260,12 +260,12 @@ class LiveStreamManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
 
-    def getCV2Manager(self):
+    def getCV2Manager(self, with_buffer=True):
         """
         Returns:
             [CV2_Manager]: An CV2_Manager instance
         """
-        return CV2_Manager(self.app_ip)
+        return CV2_Manager(self.app_ip, with_buffer)
 
     def getRTMPManager(self):
         """
