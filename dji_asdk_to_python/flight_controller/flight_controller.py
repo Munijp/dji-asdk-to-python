@@ -217,6 +217,38 @@ class FlightController:
             blocking=blocking,
         )
 
+
+    def confirmLanding(self, callback=None, timeout=10):
+        """
+        Confirms continuation of landing action.
+        When the clearance between the aircraft and the ground is less than 0.3m, the aircraft will pause landing and wait for user's confirmation.
+        Can use isLandingConfirmationNeeded in FlightControllerState to check if confirmation is needed. It is supported by flight controller firmware 3.2.0.0 and above.
+
+        Args:
+            - callback (function): An callback function with a simgle parameter of type CustomError
+            - timeout (int): A timeout seconds time
+        """
+        checkParameters(callback=callback, method_name="confirmLanding", timeout=timeout)
+
+        message = MessageBuilder.build_message(
+            message_method=MessageBuilder.CONFIRM_LANDING,
+            message_class=MessageBuilder.FLIGHT_CONTROLLER,
+            message_data=None,
+        )
+
+        return_type = DJIError
+
+        blocking = callback is None
+
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=callback,
+            timeout=timeout,
+            return_type=return_type,
+            blocking=blocking,
+        )
+
     # ---------------------------- END OF FLIGHT ACTIONS ---------------------------
 
     # ------------------------------ VIRTUAL STICK ----------------------------------

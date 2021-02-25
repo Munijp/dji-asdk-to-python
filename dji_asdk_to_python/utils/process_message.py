@@ -44,6 +44,7 @@ def data_to_flight_controller_state(data):
     go_home_execution_state = message["go_home_execution_state"]
     flight_mode = message["flight_mode"]
     gps_signal_level = message["gps_level"]
+    is_landing_confirmation_needed = message["is_landing_confirmation_needed"]
 
     fcs = FlightControllerState()
     fcs._aircraft_location = LocationCoordinate3D(
@@ -63,6 +64,7 @@ def data_to_flight_controller_state(data):
     with trial: fcs._flight_mode = FlightMode(flight_mode)
     fcs._gps_signal_level = GPSSignalLevel.NONE
     with trial: fcs._gps_signal_level = GPSSignalLevel(gps_signal_level)
+    fcs._is_landing_confirmation_needed = is_landing_confirmation_needed
     return fcs
 
 

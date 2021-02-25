@@ -2,6 +2,7 @@ class MessageBuilder:
     # DJI Methods names
     START_TAKEOFF = "startTakeoff"
     START_LANDING = "startLanding"
+    CONFIRM_LANDING = "confirmLanding"
     GET_VIRTUAL_STICK_MODE_ENABLED = "getVirtualStickModeEnabled"
     IS_CONNECTED = "isConnected"
     GET_STATE = "getState"

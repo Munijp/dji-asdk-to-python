@@ -34,6 +34,7 @@ class FlightControllerState:
         self._flight_time_in_seconds = None
         self._flight_mode = None
         self._gps_signal_level = None
+        self._is_landing_confirmation_needed = None
 
     # -------------------------------- FLIGHT INFORMATION ------------------------------------
 
@@ -130,3 +131,11 @@ class FlightControllerState:
             [GPSSignalLevel]:	An enum value of GPSSignalLevel.
         """
         return self._gps_signal_level
+
+    def isLandingConfirmationNeeded(self):
+        """
+        True if the clearance between the aircraft and the ground is less than 0.3m, and confirmation from the user is needed to continue the landing. When the confirmation is needed, confirmLanding in FlightController can be used to continue landing. It is supported by flight controller firmware 3.2.0.0 or above.
+        Returns:
+            [bool]:	True if motors are on.
+        """
+        return self._is_landing_confirmation_needed
