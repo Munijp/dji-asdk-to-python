@@ -6,6 +6,7 @@ import time
 import math
 import threading
 import sys
+from fps_limiter import LimitFPS
 from dji_asdk_to_python.errors import CustomError
 from dji_asdk_to_python.flight_controller.virtual_stick.flight_control_data import FlightControlData
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
@@ -394,6 +395,7 @@ class ArucoLanding:
         start = time.perf_counter()
         last_z = sys.maxsize
         fps = FPS()
+        fps_limiter = LimitFPS(fps=20)
 
         while True:
             end = time.perf_counter()
@@ -424,6 +426,8 @@ class ArucoLanding:
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
             if marker_found:
+                if not fps_limiter():
+                    continue
                 print("FPS marker detection %s" % fps())
                 start = time.perf_counter()
                 last_z = z_marker
@@ -453,8 +457,9 @@ class ArucoLanding:
 
                 if z_marker < 200 and abs(yaw_camera) < 15 and math.sqrt(math.pow(x_marker - self.pidx.SetPoint, 2) + math.pow(y_marker - self.pidy.SetPoint, 2)) < 12:
                     cont = 0
-                    while cont <= 10:
+                    while cont <= 5:
                         fc.startLanding()
+                        fc.confirmLanding()
                         time.sleep(1)  # esperar a que haga landing
                         cont = cont + 1
 

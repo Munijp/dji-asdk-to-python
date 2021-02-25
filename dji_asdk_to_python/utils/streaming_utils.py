@@ -34,7 +34,9 @@ class VideoCaptureWithoutBuffer():
                 self.frame = frame
 
     def read(self):
-        return self.frame is not None, self.frame
+        ret, frame = self.frame is not None, self.frame
+        self.frame = None
+        return ret, frame
 
     def release(self):
         self.streaming = False

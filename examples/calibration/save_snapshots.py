@@ -51,6 +51,7 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
 
     fileName = "%s/%s_%d_%d_" % (folder, name, w, h)
     cv2.namedWindow("output", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("output", 150, 150)
     while True:
         frame = cv2_manager.getFrame()
 

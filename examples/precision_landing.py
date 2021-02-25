@@ -3,7 +3,7 @@ import numpy as np
 from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.precision_landing.landing import ArucoLanding
 
-APP_IP = "192.168.100.206"
+APP_IP = "192.168.100.203"
 MARKER_ID = 17
 MARKER_SIZE_CM = 60
 IMAGE_WIDTH = 1280
