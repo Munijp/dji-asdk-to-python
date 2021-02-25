@@ -348,7 +348,7 @@ class ArucoLanding:
 
     def __init__(self, aircraft, marker_id, marker_size_cm, width, height, camera_matrix, camera_distortion):
         self.aircraft = aircraft
-        self.cv2_manager = self.aircraft.getLiveStreamManager().getCV2Manager()
+        self.cv2_manager = self.aircraft.getLiveStreamManager().getCV2Manager(with_buffer=False)
         self.cv2_manager.setWidth(width)
         self.cv2_manager.setHeigth(height)
         self.cv2_manager.set_stream_id("precision_landing")
