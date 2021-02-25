@@ -258,20 +258,15 @@ class FlightController:
             blocking=blocking,
         )
 
-    def getVirtualStickModeEnabled(self, callback=None, timeout=10):
+    def getVirtualStickModeEnabled(self, timeout=1):
         """
         Gets virtual stick mode status (enabled/disabled)
 
         Not supported by Mavic Pro when using the WiFi connection.
 
         Args:
-            - callback (function): An callback function with a simgle parameter of type VirtualStickModeEnabled
             - timeout (int): A timeout seconds time
         """
-
-        checkParameters(
-            callback=callback, method_name="getVirtualStickModeEnabled", timeout=timeout
-        )
 
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.GET_VIRTUAL_STICK_MODE_ENABLED,
@@ -279,17 +274,13 @@ class FlightController:
             message_data=None,
         )
 
-        return_type = bool
-
-        blocking = callback is None
-
         return SocketUtils.send(
             message=message,
             app_ip=self.app_ip,
-            callback=callback,
+            callback=None,
             timeout=timeout,
-            return_type=return_type,
-            blocking=blocking,
+            return_type=bool,
+            blocking=True,
         )
 
     def sendVirtualStickFlightControlData(
