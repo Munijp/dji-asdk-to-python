@@ -50,7 +50,9 @@ class SocketUtils:
             return SocketError("%s" % e)
 
         if blocking:
-            return SocketUtils.receive(sock, callback, timeout, return_type)
+            res = return SocketUtils.receive(sock, callback, timeout, return_type)
+            sock.close()
+            return res
         else:
             if listener is not None:
                 t = threading.Thread(
@@ -85,7 +87,6 @@ class SocketUtils:
         except json.JSONDecodeError as e:
             server_message = JsonError(
                 "%s is malformed: %s" % (server_message, e))
-        sock.close()
         return server_message
 
     @staticmethod
@@ -107,6 +108,7 @@ class SocketUtils:
                 process_message_listener
             )
             process_message_listener(listener, server_message)
+        sock.close()
 
     @staticmethod
     def parse_message(server_message, return_type):
@@ -123,22 +125,18 @@ class SocketUtils:
 
         if server_message is None:
             error = CommunicationError("Socket %s returns None" % sock)
-            sock.close()
             if callback:
                 return callback(error)
             else:
                 return error
 
         if isinstance(server_message, CustomError):
-            sock.close()
             if callback:
                 return callback(server_message)
             else:
                 return server_message
 
         result = SocketUtils.parse_message(server_message, return_type)
-
-        sock.close()
 
         if callback:
             return callback(result)
