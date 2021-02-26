@@ -60,6 +60,7 @@ OpenCV
     $ git clone https://github.com/opencv/opencv.git
     $ cd opencv && git checkout tags/4.5.1 && mkdir build && cd build
 
+    $ sudo apt install cmake -y
     $ cmake -D WITH_CUDA=ON \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D PYTHON_EXECUTABLE=/home/$USER/.virtualenvs/$ENV_NAME/bin/python \
