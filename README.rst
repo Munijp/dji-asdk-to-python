@@ -55,7 +55,7 @@ OpenCV
     # Build OpenCV (with activated virtual environment)
     $ cd $HOME
     $ git clone https://github.com/opencv/opencv_contrib.git
-    $ cd opencv && git checkout tags/4.5.1 && cd ..
+    $ cd opencv_contrib && git checkout tags/4.5.1 && cd ..
 
     $ git clone https://github.com/opencv/opencv.git
     $ cd opencv && git checkout tags/4.5.1 && mkdir build && cd build
