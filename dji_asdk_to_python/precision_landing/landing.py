@@ -320,6 +320,11 @@ class ArucoSingleTracker:
 
 
 class ArucoLanding:
+    LANDING_CM = 250
+    SECONDS_BEFORE_GET_UP = 10
+    MAX_SECONDS_GETTING_LANDING = 15
+    X_Y_CM_ERROR_ALLOWED = 12
+    YAW_ERROR_ALLOWED = 12
     """
     Inits aruco precision landing
         Parameters:
@@ -340,8 +345,8 @@ class ArucoLanding:
         self.pidz = PID(P=self.p, I=self.i, D=self.d)
 
         self.pidx.SetPoint = 0.0
-        self.pidy.SetPoint = 15.0
-        self.pidz.SetPoint = 0.0
+        self.pidy.SetPoint = 25.0
+        self.pidz.SetPoint = ArucoLanding.LANDING_CM / 1.2
 
         self.pidx.setSampleTime(0.1)
         self.pidy.setSampleTime(0.1)
@@ -389,13 +394,13 @@ class ArucoLanding:
             camera.setExposureMode(ExposureMode.PROGRAM)
         else:
             camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_200)
-            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2500)
+            camera.setISO(ISO.ISO_100)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
 
         start = time.perf_counter()
         last_z = sys.maxsize
         fps = FPS()
-        fps_limiter = LimitFPS(fps=20)
+        fps_limiter = LimitFPS(fps=15)
 
         while True:
             end = time.perf_counter()
@@ -428,11 +433,18 @@ class ArucoLanding:
             if marker_found:
                 if not fps_limiter():
                     continue
-                print("FPS marker detection %s" % fps())
+                fps_ = float(fps())
+                try:
+                    sample_time = 1/float(fps_)
+                except:
+                    sample_time = 0.1
+
+                print("FPS marker detection %s, z marker %s" % (fps_, last_z))
+
                 start = time.perf_counter()
                 last_z = z_marker
 
-                if abs(yaw_camera) > 10:
+                if abs(yaw_camera) > 5:
                     if yaw_camera < 0:
                         fcd.setYaw((abs(yaw_camera) / 10) * 1.5)
                     else:
@@ -447,46 +459,53 @@ class ArucoLanding:
                 fcd.setPitch(youtput)
                 fcd.setRoll(xoutput * -1)
 
-                if z_marker > 180 and abs(yaw_camera) < 15:
+                if z_marker > (ArucoLanding.LANDING_CM / 1.5) and abs(yaw_camera) < ArucoLanding.YAW_ERROR_ALLOWED:
                     self.pidz.update(z_marker)
                     zoutput = self.pidz.output
-                    fcd.setVerticalThrottle(max(-abs(zoutput) / 4, -3))
+                    fcd.setVerticalThrottle(max(-abs(zoutput) / 4, -2))
 
-                    if abs(zoutput) < 0.5:
-                        fcd.setVerticalThrottle(-0.5)
+                if z_marker < ArucoLanding.LANDING_CM and abs(yaw_camera) < ArucoLanding.YAW_ERROR_ALLOWED and math.sqrt(math.pow(x_marker - self.pidx.SetPoint, 2) + math.pow(y_marker - self.pidy.SetPoint, 2)) < ArucoLanding.X_Y_CM_ERROR_ALLOWED:
+                    fc.startLanding()
 
-                if z_marker < 200 and abs(yaw_camera) < 15 and math.sqrt(math.pow(x_marker - self.pidx.SetPoint, 2) + math.pow(y_marker - self.pidy.SetPoint, 2)) < 12:
-                    cont = 0
-                    while cont <= 5:
-                        fc.startLanding()
-                        fc.confirmLanding()
-                        time.sleep(1)  # esperar a que haga landing
-                        cont = cont + 1
+                    fps_limiter_aux = LimitFPS(fps=10)
+                    landing_done = False
+                    while True:
+                        if fps_limiter_aux():
 
-                    flight_controller_state = fc.getState()
+                            flight_controller_state = fc.getState()
 
-                    if not isinstance(flight_controller_state, FlightControllerState):
-                        continue
+                            if not isinstance(flight_controller_state, FlightControllerState):
+                                continue
 
-                    flying = flight_controller_state.isFlying()
+                            if flight_controller_state.isLandingConfirmationNeeded():
+                                print("Confirm Landing...")
+                                fc.confirmLanding()
 
-                    if flying is not None and not flying:
+                            flying = flight_controller_state.isFlying()
 
+                            if flying is not None and not flying:
+                                landing_done = True
+                                break
+
+                            if fps_limiter_aux.get_elapsed_seconds() > ArucoLanding.MAX_SECONDS_GETTING_LANDING:
+                                break
+
+                    if landing_done:
+                        # Reset camera settings
                         camera.setExposureMode(ExposureMode.PROGRAM)
                         fc.setCollisionAvoidanceEnabled(True)
                         self.running = False
                         break
+
                     gimbal.rotate(-90, 0, 0)
                     fc.setVirtualStickModeEnabled(True)
-
                 fc.sendVirtualStickFlightControlData(fcd)
                 fcd.setPitch(0)
                 fcd.setYaw(0)
                 fcd.setRoll(0)
                 fcd.setVerticalThrottle(0)
             else:
-                # print("elapsed %s last_z %s" % (end - start, last_z))
-                if last_z < 300 and (end - start) > 10:
+                if last_z < ArucoLanding.LANDING_CM and (end - start) > ArucoLanding.SECONDS_BEFORE_GET_UP:
                     fc.setVirtualStickModeEnabled(True)
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
                     gimbal.rotate(-90, 0, 0)

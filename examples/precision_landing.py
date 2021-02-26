@@ -19,4 +19,4 @@ aruco_landing = ArucoLanding(aircraft=aircraft,
                              camera_matrix=CAMERA_MATRIX,
                              marker_id=MARKER_ID,
                              marker_size_cm=MARKER_SIZE_CM)
-aruco_landing.start(is_night=True)
+aruco_landing.start(is_night=False)
