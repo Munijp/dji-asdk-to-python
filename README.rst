@@ -78,7 +78,7 @@ OpenCV
     $ sudo ldconfig
 
     # Make sure python path exists
-    $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.6/site-packages
+    $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.8/site-packages
     $ ln -s /usr/local/lib/python3.8/site-packages/cv2/python-3.8/cv2.cpython-38-aarch64-linux-gnu.so cv2.so
     
     # Check OpenCV install
