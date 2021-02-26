@@ -55,11 +55,12 @@ OpenCV
     # Build OpenCV (with activated virtual environment)
     $ cd $HOME
     $ git clone https://github.com/opencv/opencv_contrib.git
-    $ cd opencv && git checkout tags/4.5.1 && cd ..
+    $ cd opencv_contrib && git checkout tags/4.5.1 && cd ..
 
     $ git clone https://github.com/opencv/opencv.git
     $ cd opencv && git checkout tags/4.5.1 && mkdir build && cd build
 
+    $ sudo apt install cmake -y
     $ cmake -D WITH_CUDA=ON \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D PYTHON_EXECUTABLE=/home/$USER/.virtualenvs/$ENV_NAME/bin/python \
@@ -77,7 +78,7 @@ OpenCV
     $ sudo ldconfig
 
     # Make sure python path exists
-    $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.6/site-packages
+    $ cd ~/.virtualenvs/$ENV_NAME/lib/python3.8/site-packages
     $ ln -s /usr/local/lib/python3.8/site-packages/cv2/python-3.8/cv2.cpython-38-aarch64-linux-gnu.so cv2.so
     
     # Check OpenCV install
