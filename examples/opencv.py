@@ -14,6 +14,7 @@ cv2_manager = streaming_manager.getCV2Manager(with_buffer=False)
 cv2_manager.setWidth(int(1920 / 2))
 cv2_manager.setHeigth(int(1080 / 2))
 cv2_manager.set_stream_id("testing")
+print("Starting streaming...")
 result = cv2_manager.startStream()
 print("result startStream %s" % result)
 

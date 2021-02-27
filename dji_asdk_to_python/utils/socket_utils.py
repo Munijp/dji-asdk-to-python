@@ -50,7 +50,7 @@ class SocketUtils:
             return SocketError("%s" % e)
 
         if blocking:
-            res = return SocketUtils.receive(sock, callback, timeout, return_type)
+            res = SocketUtils.receive(sock, callback, timeout, return_type)
             sock.close()
             return res
         else:

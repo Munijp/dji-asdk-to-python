@@ -55,6 +55,8 @@ class CV2_Listener(object):
         else:
             self.port = port
 
+        print("CV2 Listener on port %s" % self.port)
+
         self.gst_str = ('udpsrc port={} caps="application/x-rtp, encoding-name=(string)H264" ! '
                'queue ! rtph264depay ! queue ! h264parse ! omxh264dec ! '
                'nvvidconv ! '

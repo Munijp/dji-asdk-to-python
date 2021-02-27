@@ -324,7 +324,7 @@ class ArucoLanding:
     SECONDS_BEFORE_GET_UP = 10
     MAX_SECONDS_GETTING_LANDING = 15
     X_Y_CM_ERROR_ALLOWED = 12
-    YAW_ERROR_ALLOWED = 12
+    YAW_ERROR_ALLOWED = 10
     """
     Inits aruco precision landing
         Parameters:
@@ -439,7 +439,8 @@ class ArucoLanding:
                 except:
                     sample_time = 0.1
 
-                print("FPS marker detection %s, z marker %s" % (fps_, last_z))
+                print("FPS marker detection %s" % (fps_))
+                print("x %s y %s z %s yaw %s" % (x_marker, y_marker, z_marker, yaw_camera))
 
                 start = time.perf_counter()
                 last_z = z_marker
