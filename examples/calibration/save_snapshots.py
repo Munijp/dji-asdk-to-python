@@ -26,7 +26,6 @@ def save_snaps(width=0, height=0, name="snapshot", folder=".", app_ip=None):
     cv2_manager = streaming_manager.getCV2Manager()
     cv2_manager.setWidth(width)
     cv2_manager.setHeigth(height)
-    cv2_manager.set_stream_id("calibration")
     result = cv2_manager.startStream()
     print("result startStream %s" % result)
 

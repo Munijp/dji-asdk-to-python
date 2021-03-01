@@ -357,7 +357,6 @@ class ArucoLanding:
         self.cv2_manager = self.aircraft.getLiveStreamManager().getCV2Manager(with_buffer=False)
         self.cv2_manager.setWidth(width)
         self.cv2_manager.setHeigth(height)
-        self.cv2_manager.set_stream_id("precision_landing")
 
         self.marker_id = marker_id
         self.marker_size_cm = marker_size_cm

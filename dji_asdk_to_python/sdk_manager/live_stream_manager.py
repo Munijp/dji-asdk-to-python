@@ -5,78 +5,10 @@ from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 
 
-class RTPManager:
-    def __init__(self, app_ip):
-        self.app_ip = app_ip
-        letters = [c for c in string.ascii_lowercase]
-        self.stream_id = "".join(random.choice(letters) for i in range(10))
-        self.streaming_listener = None
-
-    def remote_start(self):
-        assert self.streaming_listener is not None
-        assert self.streaming_listener.port is not None
-        ip = SocketUtils.getIp()
-        message = MessageBuilder.build_message(
-            message_method=MessageBuilder.START_RTP_STREAMING,
-            message_class=MessageBuilder.RTP_STREAMING,
-            message_data={"port": self.streaming_listener.port, "ip": ip, "stream_id": self.stream_id},
-        )
-
-        def callback(result):
-            if isinstance(result, bool) and result:
-                return True
-            else:
-                return result
-
-        return_type = bool
-        timeout = 10
-        result = SocketUtils.send(
-            message=message,
-            app_ip=self.app_ip,
-            callback=callback,
-            timeout=timeout,
-            return_type=return_type,
-            blocking=True,
-        )
-        return result
-
-    def set_stream_id(self, stream_id):
-        assert isinstance(stream_id, str)
-        self.stream_id = stream_id
-
-    def remote_stop(self):
-        message = MessageBuilder.build_message(
-            message_method=MessageBuilder.STOP_RTP_STREAMING,
-            message_class=MessageBuilder.RTP_STREAMING,
-            message_data={"stream_id": self.stream_id},
-        )
-
-        def callback(result):
-            if isinstance(result, bool) and result:
-                self.streaming_listener.stop()
-                return True
-            else:
-                return result
-
-        return_type = bool
-        timeout = 10
-
-        result = SocketUtils.send(
-            message=message,
-            app_ip=self.app_ip,
-            callback=callback,
-            timeout=timeout,
-            return_type=return_type,
-            blocking=True,
-        )
-        return result
-
-
-class CV2_Manager(RTPManager):
+class CV2_Manager:
 
     def __init__(self, app_ip, with_buffer=True):
-        super().__init__(app_ip)
-        self.streaming_listener = CV2_Listener(with_buffer)
+        self.streaming_listener = CV2_Listener(with_buffer=with_buffer, app_ip=app_ip)
 
     def getStreamingListener(self):
         return self.streaming_listener
@@ -104,21 +36,21 @@ class CV2_Manager(RTPManager):
         Returns:
             [int]: Width of frames
         """
-        return self.streaming_listener.width
+        return self.streaming_listener.getWidth()
 
     def getHeight(self):
         """
         Returns:
             [int]: Height of frames
         """
-        return self.streaming_listener.height
+        return self.streaming_listener.getHeight()
 
     def isStreaming(self):
         """
         Returns:
             [boolean]: True if is streaming
         """
-        return self.streaming_listener.streaming
+        return self.streaming_listener.isStreaming()
 
     def getFrame(self):
         """
@@ -131,15 +63,13 @@ class CV2_Manager(RTPManager):
         """
             Start CV2 streaming
         """
-        res = self.remote_start()
         self.streaming_listener.start()
-        return res
 
     def stopStream(self):
         """
             Stop CV2 streaming
         """
-        return self.remote_stop()
+        self.streaming_listener.stop()
 
 
 class RTMPManager:
