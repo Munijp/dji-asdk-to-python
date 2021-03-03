@@ -28,7 +28,7 @@ Features
 
 * Control your aircraft with virtual sticks
 * Perform waypoint missions
-* Get real time aircraft video streaming using OpenCV and GStreamer
+* Get real time aircraft video streaming using OpenCV
 * Precision landing using Aruco markers
 
 
