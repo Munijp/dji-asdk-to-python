@@ -1,6 +1,6 @@
 import cv2
 
-cap = cv2.VideoCapture("tcp://192.168.20.74:11112")
+cap = cv2.VideoCapture("tcp://192.168.100.203:11112")
 print(cap)
 while(True): 
     ret, frame = cap.read() 

@@ -4,7 +4,7 @@ from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
 import time
-APP_IP = "192.168.0.112"
+APP_IP = "192.168.100.203"
 
 drone = Aircraft(APP_IP)
 camera = drone.getCamera()
