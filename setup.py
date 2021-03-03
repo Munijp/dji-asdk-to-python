@@ -25,13 +25,13 @@ test_requirements = ['pytest>=3', ]
 setup(
     author="Carlos Tovar",
     author_email='cartovarc@gmail.com',
-    python_requires='>=3.8',
+    python_requires='>=3.6',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.6',
     ],
     description="Control your DJI drone compatible with DJI Android SDK through Python",
     install_requires=requirements,
