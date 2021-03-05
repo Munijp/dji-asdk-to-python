@@ -3,9 +3,6 @@ DJI Android SDK to Python
 =========================
 
 
-.. image:: https://img.shields.io/pypi/v/dji-asdk-to-python.svg
-        :target: https://pypi.python.org/pypi/dji-asdk-to-python
-
 .. image:: https://img.shields.io/travis/PSBPOSAS/dji-asdk-to-python.svg
         :target: https://travis-ci.org/PSBPOSAS/dji-asdk-to-python
 
@@ -31,20 +28,12 @@ Features
 
 * Control your aircraft with virtual sticks
 * Perform waypoint missions
-* Get real time aircraft video streaming using OpenCV and GStreamer
+* Get real time aircraft video streaming using OpenCV
 * Precision landing using Aruco markers
 
 
 Dependencies
 ------------
-
-Install PyPI
-~~~~~~~~~~~~~~~~~~~
-
-.. code:: bash
-
-    $ pip install dji-asdk-to-python
-
 
 Install from master
 ~~~~~~~~~~~~~~~~~~~
