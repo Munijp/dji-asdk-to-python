@@ -7,6 +7,7 @@ from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
 from dji_asdk_to_python.flight_controller.location_coordinate_3d import LocationCoordinate3D
+from dji_asdk_to_python.flight_controller.location_coordinate_2d import LocationCoordinate2D
 from dji_asdk_to_python.flight_controller.go_home_execution_state import GoHomeExecutionState
 from dji_asdk_to_python.flight_controller.flight_mode import FlightMode
 from dji_asdk_to_python.flight_controller.attitude import Attitude
@@ -112,6 +113,11 @@ def process_return_type(server_message, return_type):
     elif return_type == WaypointMissionState:
         data = server_message["data"]["currentState"]
         result = WaypointMissionState[data]
+    elif return_type == LocationCoordinate2D:
+        latitude = server_message["data"]["latitude"]
+        longitude = server_message["data"]["longitude"]
+        result = LocationCoordinate2D(latitude=float(latitude),
+                                      longitude=float(longitude))
     elif return_type == DJIError:
         result = None
     elif return_type is None:

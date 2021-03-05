@@ -1,5 +1,5 @@
 from dji_asdk_to_python.products.aircraft import Aircraft
-from dji_asdk_to_python.mission_control.waypoint.waypoint import LocationCoordinate2D
+from dji_asdk_to_python.flight_controller.location_coordinate_2d import LocationCoordinate2D
 from dji_asdk_to_python.mission_action.mission_action import MissionAction
 
 import time

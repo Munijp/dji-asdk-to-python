@@ -14,6 +14,7 @@ from dji_asdk_to_python.flight_controller.virtual_stick.flight_control_data impo
     FlightControlData,
 )
 
+from dji_asdk_to_python.flight_controller.location_coordinate_2d import LocationCoordinate2D
 
 class FlightController:
     """
@@ -502,7 +503,7 @@ class FlightController:
             message_data=None,
         )
 
-        return_type = str
+        return_type = LocationCoordinate2D
 
         SocketUtils.send(
             message=message,
