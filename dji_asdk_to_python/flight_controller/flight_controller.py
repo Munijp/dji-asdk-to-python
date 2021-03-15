@@ -505,7 +505,7 @@ class FlightController:
 
         return_type = LocationCoordinate2D
 
-        SocketUtils.send(
+        return SocketUtils.send(
             message=message,
             app_ip=self.app_ip,
             callback=callback,

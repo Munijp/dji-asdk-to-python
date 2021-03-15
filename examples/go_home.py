@@ -7,11 +7,12 @@ app_ip = "192.168.100.203"
 drone = Aircraft(app_ip)
 fc = drone.getFlightController()
 
-homeLocation = LocationCoordinate2D(3.3310794794873844, -76.53948434110453)
+new_home_location = LocationCoordinate2D(3.3310794794873844, -76.53948434110453)
 
 current_home_location = fc.getHomeLocation()
-print(current_home_location)
-# fc.setHomeLocation(homeLocation)
+print("current home: lat %s, lng %s " % (
+    current_home_location.latitude, current_home_location.longitude))
+result = fc.setHomeLocation(new_home_location)
+print("result", result)
 # fc.startGoHome(startGoHomeCallback)
 # fc.cancelGoHome(cancelGoHomeCallback)
-
