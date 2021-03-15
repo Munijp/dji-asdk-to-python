@@ -320,11 +320,11 @@ class ArucoSingleTracker:
 
 
 class ArucoLanding:
-    LANDING_CM = 250
+    LANDING_CM = 270
     SECONDS_BEFORE_GET_UP = 10
     MAX_SECONDS_GETTING_LANDING = 15
     X_Y_CM_ERROR_ALLOWED = 12
-    YAW_ERROR_ALLOWED = 10
+    YAW_ERROR_ALLOWED = 15
     """
     Inits aruco precision landing
         Parameters:
@@ -345,7 +345,7 @@ class ArucoLanding:
         self.pidz = PID(P=self.p, I=self.i, D=self.d)
 
         self.pidx.SetPoint = 0.0
-        self.pidy.SetPoint = 25.0
+        self.pidy.SetPoint = 15.0
         self.pidz.SetPoint = ArucoLanding.LANDING_CM / 1.2
 
         self.pidx.setSampleTime(0.1)
@@ -462,12 +462,12 @@ class ArucoLanding:
                 if z_marker > (ArucoLanding.LANDING_CM / 1.5) and abs(yaw_camera) < ArucoLanding.YAW_ERROR_ALLOWED:
                     self.pidz.update(z_marker)
                     zoutput = self.pidz.output
-                    fcd.setVerticalThrottle(max(-abs(zoutput) / 4, -2))
+                    fcd.setVerticalThrottle(max(min(-0.4, -abs(zoutput) / 4), -2))
 
                 if z_marker < ArucoLanding.LANDING_CM and abs(yaw_camera) < ArucoLanding.YAW_ERROR_ALLOWED and math.sqrt(math.pow(x_marker - self.pidx.SetPoint, 2) + math.pow(y_marker - self.pidy.SetPoint, 2)) < ArucoLanding.X_Y_CM_ERROR_ALLOWED:
                     fc.startLanding()
 
-                    fps_limiter_aux = LimitFPS(fps=10)
+                    fps_limiter_aux = LimitFPS(fps=15)
                     landing_done = False
                     while True:
                         if fps_limiter_aux():

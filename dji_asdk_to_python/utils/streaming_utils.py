@@ -1,4 +1,5 @@
 import threading
+import time
 import os
 
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
@@ -19,6 +20,7 @@ class VideoCaptureWithoutBuffer():
             ret, frame = self.cap.read()
             if ret:
                 self.frame = frame
+            time.sleep(1/60)
 
     def read(self):
         ret, frame = self.frame is not None, self.frame
@@ -39,7 +41,7 @@ class CV2_Listener(object):
         self.streaming = False
         self.with_buffer = with_buffer
         self.app_ip = app_ip
-    
+
     def isStreaming(self):
         return self.streaming
 
