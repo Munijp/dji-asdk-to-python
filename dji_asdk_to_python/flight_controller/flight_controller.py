@@ -510,6 +510,7 @@ class FlightController:
             app_ip=self.app_ip,
             callback=callback,
             timeout=timeout,
+            blocking=callback is None,
             return_type=return_type,
         )
 
@@ -534,7 +535,7 @@ class FlightController:
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_HOME_LOCATION,
             message_class=MessageBuilder.FLIGHT_CONTROLLER,
-            message_data={"homeLocation": homeLocation},
+            message_data={"homeLocation": homeLocation.__dict__},
         )
 
         return_type = DJIError

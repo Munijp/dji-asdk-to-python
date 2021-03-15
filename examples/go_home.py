@@ -2,41 +2,16 @@ from dji_asdk_to_python.flight_controller.location_coordinate_2d import Location
 from dji_asdk_to_python.products.aircraft import Aircraft
 import time
 
-app_ip = "192.168.0.174"
-
-
-def startGoHomeCallback(data):
-    print("callback startGoHomeCallback is executed")
-    print(data)
-
-
-def cancelGoHomeCallback(data):
-    print("callback cancelGoHomeCallback is executed")
-    print(data)
-
-
-def setHomeLocationCallback(data):
-    print("callback setHomeLocationCallback is executed")
-    print(data)
-
-
-def getHomeLocationCallback(data):
-    print("callback getHomeLocationCallback is executed")
-    print(data)
-
+app_ip = "192.168.100.203"
 
 drone = Aircraft(app_ip)
 fc = drone.getFlightController()
 
 homeLocation = LocationCoordinate2D(3.3310794794873844, -76.53948434110453)
 
-fc.getHomeLocation(getHomeLocationCallback)
-fc.startGoHome(startGoHomeCallback)
-time.sleep(45)
-fc.cancelGoHome(cancelGoHomeCallback)
-time.sleep(5)
-fc.getHomeLocation(getHomeLocationCallback)
-fc.setHomeLocation(homeLocation.__dict__, setHomeLocationCallback)
-fc.getHomeLocation(getHomeLocationCallback)
-time.sleep(5)
-fc.startGoHome(startGoHomeCallback)
+current_home_location = fc.getHomeLocation()
+print(current_home_location)
+# fc.setHomeLocation(homeLocation)
+# fc.startGoHome(startGoHomeCallback)
+# fc.cancelGoHome(cancelGoHomeCallback)
+
