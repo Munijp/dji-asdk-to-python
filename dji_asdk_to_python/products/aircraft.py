@@ -1,6 +1,8 @@
 from dji_asdk_to_python.flight_controller.flight_controller import (
     FlightController
 )
+
+from dji_asdk_to_python.video_record_manager import VideoRecordManager
 from dji_asdk_to_python.gimbal.gimbal import Gimbal
 from dji_asdk_to_python.battery.battery import Battery
 from dji_asdk_to_python.camera.camera import Camera
@@ -19,6 +21,9 @@ class Aircraft:
 
     def getFlightController(self):
         return FlightController(self.app_ip)
+
+    def getVideoRecordManager(self):
+        return VideoRecordManager(self)
 
     def getLiveStreamManager(self):
         return LiveStreamManager(self.app_ip)
