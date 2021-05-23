@@ -8,7 +8,7 @@ This example tests:
     - Waits for all the waypoints of a mission to be uploaded
 """
 
-APP_IP = "192.168.100.203"
+APP_IP = "192.168.100.210"
 
 wpmoperator = WaypointMissionOperator(app_ip=APP_IP)
 wpmolistener = None
@@ -28,7 +28,7 @@ def onUploadUpdate(waypoint_mission_upload_event):
 
     if current_state == WaypointMissionState.READY_TO_EXECUTE:
         print("Current state is READY_TO_EXECUTE")
-        result = wpmoperator.startMission()
+        # result = wpmoperator.startMission()
         print("startMission result %s" % result)
         # wpmoperator.removeListener(wpmolistener)
 

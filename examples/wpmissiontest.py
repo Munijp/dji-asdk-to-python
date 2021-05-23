@@ -11,7 +11,7 @@ from dji_asdk_to_python.mission_control.waypoint import (
 )
 import json
 
-APP_IP = "192.168.100.203"
+APP_IP = "192.168.100.210"
 
 drone = Aircraft(app_ip=APP_IP)
 
