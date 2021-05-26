@@ -604,7 +604,8 @@ class FlightController:
             end = start
             while end - start <= seconds:
                 end = time.perf_counter()
-                fc.sendVirtualStickFlightControlData(flight_control_data=fcd)
+                #fc.sendVirtualStickFlightControlData(flight_control_data=fcd)
+                print(fc.sendVirtualStickFlightControlData(flight_control_data=fcd))
 
         fc.setVirtualStickModeEnabled(False)
 

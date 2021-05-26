@@ -2,6 +2,7 @@ import socket
 import json
 import threading
 import logging
+import sys
 
 from .message_builder import MessageBuilder
 
@@ -42,12 +43,16 @@ class SocketUtils:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)  # timeout
         try:
+            print('starting connection')
             sock.connect((app_ip, SocketUtils.APP_PORT))
+            print('connection successful')
             sock.send(message.encode("utf-8"))
+            print('Message sended')
         except socket.error as e:
             return SocketError("%s" % e)
         except socket.timeout as e:
             return SocketError("%s" % e)
+        sys.stdout.flush()
 
         if blocking:
             res = SocketUtils.receive(sock, callback, timeout, return_type)

@@ -5,7 +5,7 @@ This example tests:
     - Waits for all the waypoints of a mission to be uploaded
 """
 
-APP_IP = "192.168.100.206"
+APP_IP = "192.168.100.210"
 
 wpmoperator = WaypointMissionOperator(app_ip=APP_IP)
 

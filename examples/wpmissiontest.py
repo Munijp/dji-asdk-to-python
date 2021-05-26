@@ -26,6 +26,7 @@ wp3.setGimbalPitch(-90)
 wp3.setSpeed(10)
 
 waypoints = [wp1, wp2, wp3]
+
 builder = WaypointMission.Builder()
 
 builder.setWaypointList(waypoint_list=waypoints)

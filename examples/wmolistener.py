@@ -14,6 +14,7 @@ wpmoperator = WaypointMissionOperator(app_ip=APP_IP)
 wpmolistener = None
 
 def onUploadUpdate(waypoint_mission_upload_event):
+    
     progress = waypoint_mission_upload_event.getProgress()
     current_state = waypoint_mission_upload_event.getCurrentState()
     previous_state = waypoint_mission_upload_event.getPreviousState()
@@ -59,12 +60,15 @@ def onExecutionFinish(dji_error):
     print("Mission finished with error %s" % dji_error)
     wpmoperator.removeListener(wpmolistener)
 
+
+
 wpmolistener = WaypointMissionOperatorListener(
-    onUploadUpdate,
-    onDownloadUpdate,
-    onExecutionStart,
-    onExecutionUpdate,
-    onExecutionFinish,
+onUploadUpdate,
+onDownloadUpdate,
+onExecutionStart,
+onExecutionUpdate,
+onExecutionFinish,
 )
+
 result = wpmoperator.addListener(wpmolistener)
 print("Listener result %s" % result)

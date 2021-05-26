@@ -1,6 +1,7 @@
 # importing necessary libraries to starting working with Drone
 
 import sys
+import threading
 from time import sleep
 from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.flight_controller.flight_controller_state import FlightControllerState
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     # Verifying GPS telemetry
 
     print("getGPSSignalLevel %s" % flight_controller_state.getGPSSignalLevel())
-
+    print('hilos activos: ', threading.active_count())
     # starting landing
 
     fc.startLanding()
