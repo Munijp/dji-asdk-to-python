@@ -52,7 +52,6 @@ class SocketUtils:
 
         # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # sock.settimeout(timeout)  # timeout
-        sock = socket_obj
 
         try:
             #print('starting connection')
