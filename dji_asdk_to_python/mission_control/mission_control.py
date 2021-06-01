@@ -31,6 +31,7 @@ class MissionControl:
         return_type = str
 
         SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

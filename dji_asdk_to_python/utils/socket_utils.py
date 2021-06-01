@@ -3,7 +3,7 @@ import json
 import threading
 import logging
 import sys
-
+import os
 from .message_builder import MessageBuilder
 
 
@@ -13,16 +13,16 @@ from dji_asdk_to_python.utils.process_message import (
 )
 
 from dji_asdk_to_python.errors import (
-    CustomError,
-    SocketError,
-    JsonError,
-    CommunicationError,
+    CustomError, SocketError,
+    JsonError, CommunicationError
 )
 
+BASE_DIR = '/home/jetson-a0002/Desktop/report.txt'
 
 class SocketUtils:
     APP_PORT = 11111
     FIRST_MESSAGE_LENGTH = 7
+    COUNT = 0
 
     # fmt: off
     @staticmethod
@@ -32,6 +32,7 @@ class SocketUtils:
 
     @staticmethod
     def send(
+        sock,
         message,
         app_ip,
         callback,
@@ -40,23 +41,55 @@ class SocketUtils:
         blocking=False,
         listener=None
     ):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(timeout)  # timeout
+        
+        if not isinstance(sock, socket.socket):
+            return SocketError("Socket Invalid")
+
+        # try:
+        #     sock.connect((app_ip, SocketUtils.APP_PORT))
+        # except:
+        #     continue
+
+        # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # sock.settimeout(timeout)  # timeout
+        sock = socket_obj
+
         try:
-            print('starting connection')
+            #print('starting connection')
+
             sock.connect((app_ip, SocketUtils.APP_PORT))
-            print('connection successful')
+        except socket.error as e:
+            if e.errno == 106:
+                pass
+            else:
+                return SocketError("%s" % e)
+        except socket.timeout as e:
+            return SocketError("%s" % e)
+
+        try:
+            #print('connection successful')
+
             sock.send(message.encode("utf-8"))
-            print('Message sended')
+
+            #print('Message sended')
+
+            print("COUNT", SocketUtils.COUNT)
+            SocketUtils.COUNT = SocketUtils.COUNT + 1
+
+            # with open(BASE_DIR, 'w') as f:
+            #     f.write(f'Count: {SocketUtils.COUNT}')
+            #     f.close()
+
         except socket.error as e:
             return SocketError("%s" % e)
         except socket.timeout as e:
             return SocketError("%s" % e)
+
         sys.stdout.flush()
 
         if blocking:
             res = SocketUtils.receive(sock, callback, timeout, return_type)
-            sock.close()
+            # sock.close()
             return res
         else:
             if listener is not None:

@@ -1,5 +1,6 @@
 import string
 import random
+import socket
 from dji_asdk_to_python.utils.streaming_utils import CV2_Listener
 from dji_asdk_to_python.utils.socket_utils import SocketUtils
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
@@ -93,6 +94,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -123,6 +125,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -148,6 +151,7 @@ class RTMPManager:
         return_type = int
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -173,6 +177,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -189,6 +194,7 @@ class LiveStreamManager:
 
     def __init__(self, app_ip):
         self.app_ip = app_ip
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def getCV2Manager(self, with_buffer=True):
         """

@@ -1,4 +1,5 @@
 import cv2
+import socket
 import time
 import threading
 
@@ -12,6 +13,7 @@ class VideoRecordManager:
         self.aircraft = aircraft
         self.recording = False
         self.path = None
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def receive_frames(self):
         streaming_manager = self.aircraft.getLiveStreamManager()

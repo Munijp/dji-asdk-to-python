@@ -1,3 +1,4 @@
+import socket
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 
 from dji_asdk_to_python.utils.shared import checkParameters
@@ -17,6 +18,7 @@ class Battery:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def getBatteryState(self, callback=None, timeout=10):
         """
@@ -37,6 +39,7 @@ class Battery:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

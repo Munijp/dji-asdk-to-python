@@ -1,4 +1,5 @@
 import time
+import socket
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
 
@@ -28,6 +29,7 @@ class FlightController:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def getState(self, callback=None, timeout=10):
         """
@@ -38,9 +40,9 @@ class FlightController:
         checkParameters(callback=callback, method_name="getState", timeout=timeout)
 
         message = MessageBuilder.build_message(
-            message_method=MessageBuilder.GET_STATE,
-            message_class=MessageBuilder.FLIGHT_CONTROLLER,
-            message_data=None,
+            message_method = MessageBuilder.GET_STATE,
+            message_class = MessageBuilder.FLIGHT_CONTROLLER,
+            message_data = None
         )
 
         return_type = FlightControllerState
@@ -48,13 +50,15 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            message=message,
-            app_ip=self.app_ip,
-            callback=callback,
-            timeout=timeout,
-            return_type=return_type,
-            blocking=blocking,
+            sock = self.sock,
+            message = message,
+            app_ip = self.app_ip,
+            callback = callback,
+            timeout = timeout,
+            return_type = return_type,
+            blocking = blocking
         )
+
 
     def isConnected(self, timeout=1):
         """
@@ -77,6 +81,7 @@ class FlightController:
         return_type = bool
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -105,6 +110,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -136,6 +142,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -179,6 +186,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -210,6 +218,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -242,6 +251,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -283,6 +293,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -308,6 +319,7 @@ class FlightController:
         )
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -317,7 +329,7 @@ class FlightController:
         )
 
     def sendVirtualStickFlightControlData(
-        self, flight_control_data, callback=None, timeout=1
+        self, flight_control_data, callback=None, timeout=10
     ):
         """
         Sends flight control data using virtual stick commands.
@@ -348,6 +360,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -382,6 +395,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -416,6 +430,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -452,6 +467,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -483,6 +499,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -506,6 +523,7 @@ class FlightController:
         return_type = LocationCoordinate2D
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -543,6 +561,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -611,7 +630,7 @@ class FlightController:
 
     # ------------------------------- END OF CUSTOM METHODS-------------------
 
-    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=10):
+    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=1):
         """
         Enable collision avoidance. When enabled, the aircraft will stop and try to go around detected obstacles.
         """
@@ -631,6 +650,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

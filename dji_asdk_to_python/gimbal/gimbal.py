@@ -1,3 +1,4 @@
+import socket
 from dji_asdk_to_python.utils.message_builder import MessageBuilder
 from dji_asdk_to_python.errors import DJIError
 
@@ -16,6 +17,7 @@ class Gimbal:
             - app_ip (str): Android device ip
         """
         self.app_ip = app_ip
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def rotate(self, pitch, roll, yaw, callback=None, timeout=10):
         """
@@ -38,6 +40,7 @@ class Gimbal:
         blocking = callback is None
 
         return SocketUtils.send(
+            socket_obj=self.socket,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

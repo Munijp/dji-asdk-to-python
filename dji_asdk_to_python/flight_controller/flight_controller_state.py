@@ -8,13 +8,15 @@ class FlightControllerState:
 
     class Callback:
         """
-        Callback class that updates the flight controller's current state data. This method gets called 10 times per second after startUpdatingFlightControllerCurrentState is called.
+        Callback class that updates the flight controller's current state data. 
+        This method gets called 10 times per second after startUpdatingFlightControllerCurrentState is called.
         """
 
         def __init__(self, onUpdate):
             """
             Args:
-                onUpdate ([function]): Called with a single arg of type FlightControllerState when the flight controller's current state data has been updated. This method is called 10 times per second.
+                onUpdate ([function]): Called with a single arg of type FlightControllerState when the flight controller's 
+                current state data has been updated. This method is called 10 times per second.
             """
             assert callable(onUpdate)
             self.uid = uuid.uuid1()

@@ -79,7 +79,7 @@ if __name__ == '__main__':
     # Verifying GPS telemetry
 
     print("getGPSSignalLevel %s" % flight_controller_state.getGPSSignalLevel())
-    print('hilos activos: ', threading.active_count())
+    #print('hilos activos: ', threading.active_count())
     # starting landing
 
     fc.startLanding()
