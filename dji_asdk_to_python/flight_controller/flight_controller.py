@@ -186,7 +186,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.sock,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
