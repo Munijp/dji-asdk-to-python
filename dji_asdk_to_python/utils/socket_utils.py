@@ -32,7 +32,7 @@ class SocketUtils:
 
     @staticmethod
     def send(
-        sock,
+        socket_obj,
         message,
         app_ip,
         callback,
@@ -42,6 +42,7 @@ class SocketUtils:
         blocking=False,
         listener=None,
     ):
+        sock = socket_obj
         
         if not isinstance(sock, socket.socket):
             return SocketError("Socket Invalid")
