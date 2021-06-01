@@ -38,7 +38,7 @@ class SocketUtils:
         callback,
         timeout,
         return_type,
-        close,
+        close=False,
         blocking=False,
         listener=None,
     ):
