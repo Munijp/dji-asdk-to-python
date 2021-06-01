@@ -249,6 +249,7 @@ class FlightController:
         return_type = DJIError
 
         blocking = callback is None
+        close = True
 
         return SocketUtils.send(
             socket_obj=self.socket,
@@ -258,6 +259,7 @@ class FlightController:
             timeout=timeout,
             return_type=return_type,
             blocking=blocking,
+            close = close
         )
 
     # ---------------------------- END OF FLIGHT ACTIONS ---------------------------

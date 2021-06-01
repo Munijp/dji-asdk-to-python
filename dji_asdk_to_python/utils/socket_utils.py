@@ -38,8 +38,9 @@ class SocketUtils:
         callback,
         timeout,
         return_type,
+        close,
         blocking=False,
-        listener=None
+        listener=None,
     ):
         
         if not isinstance(sock, socket.socket):
@@ -88,6 +89,8 @@ class SocketUtils:
 
         if blocking:
             res = SocketUtils.receive(sock, callback, timeout, return_type)
+            if close:
+                sock.close()
             # sock.close()
             return res
         else:
