@@ -37,7 +37,7 @@ class MissionAction:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket_obj,
+            sock=self.sock,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -67,7 +67,7 @@ class MissionAction:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket_obj,
+            sock=self.sock,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

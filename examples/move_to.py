@@ -79,7 +79,16 @@ if __name__ == '__main__':
     # Verifying GPS telemetry
 
     print("getGPSSignalLevel %s" % flight_controller_state.getGPSSignalLevel())
-    #print('hilos activos: ', threading.active_count())
+    location = flight_controller_state.getAircraftLocation()
+
+    try:
+        print("Altitud: ", location.getAltitude())
+        print("Latitud: ", location.getLatitude())
+        print("Longitud: ", location.getLongitude())
+
+    except Exception as e:
+        print(f'The exeption is: {e}')
+
     # starting landing
 
     fc.startLanding()

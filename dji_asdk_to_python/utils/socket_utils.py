@@ -32,7 +32,7 @@ class SocketUtils:
 
     @staticmethod
     def send(
-        socket_obj,
+        sock,
         message,
         app_ip,
         callback,
@@ -42,7 +42,7 @@ class SocketUtils:
         blocking=False,
         listener=None,
     ):
-        sock = socket_obj
+        #sock = socket_obj
         
         if not isinstance(sock, socket.socket):
             return SocketError("Socket Invalid")
@@ -74,7 +74,7 @@ class SocketUtils:
 
             #print('Message sended')
 
-            print("COUNT", SocketUtils.COUNT)
+            #print("COUNT", SocketUtils.COUNT)
             SocketUtils.COUNT = SocketUtils.COUNT + 1
 
             # with open(BASE_DIR, 'w') as f:
