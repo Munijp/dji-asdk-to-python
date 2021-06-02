@@ -28,7 +28,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -53,7 +53,7 @@ class WaypointMissionOperator:
         return_type = str
 
         SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -77,7 +77,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -101,7 +101,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -128,7 +128,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -153,7 +153,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -183,7 +183,7 @@ class WaypointMissionOperator:
         blocking = True
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -210,7 +210,7 @@ class WaypointMissionOperator:
         return_type = DJIError
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -238,7 +238,7 @@ class WaypointMissionOperator:
         return_type = bool
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,

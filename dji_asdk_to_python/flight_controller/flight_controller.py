@@ -22,6 +22,8 @@ class FlightController:
     This class contains components of the flight controller and provides methods to send different commands to the flight controller. This object is available from the Aircraft object.
     """
 
+    TIMEOUT_VALUE = 0.5 # SECONDS
+
     def __init__(self, app_ip):
         """
         Args:
@@ -29,9 +31,9 @@ class FlightController:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def getState(self, callback=None, timeout=10):
+    def getState(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         Returns:
             [FlightControllerState]: the current state of flight controller.
@@ -50,7 +52,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            sock = self.sock,
+            socket_obj = self.socket_obj,
             message = message,
             app_ip = self.app_ip,
             callback = callback,
@@ -60,7 +62,7 @@ class FlightController:
         )
 
 
-    def isConnected(self, timeout=1):
+    def isConnected(self, timeout=TIMEOUT_VALUE):
         """
         Gets boolean value from flight controller connection
 
@@ -81,7 +83,7 @@ class FlightController:
         return_type = bool
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -110,11 +112,11 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
-            timeout=10,
+            timeout=TIMEOUT_VALUE,
             return_type=return_type,
             listener=callback,
         )
@@ -142,11 +144,11 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
-            timeout=10,
+            timeout=TIMEOUT_VALUE,
             return_type=return_type,
             listener=callback,
         )
@@ -164,7 +166,7 @@ class FlightController:
         return result
 
     # -------------------------------- FLIGHT ACTIONS ------------------------------------
-    def startTakeoff(self, callback=None, timeout=10):
+    def startTakeoff(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         Allow your aircraft to start take off
 
@@ -186,7 +188,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -195,7 +197,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def startLanding(self, callback=None, timeout=10):
+    def startLanding(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         Allow your aircraft to start landing
 
@@ -218,7 +220,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -228,7 +230,7 @@ class FlightController:
         )
 
 
-    def confirmLanding(self, callback=None, timeout=10):
+    def confirmLanding(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         Confirms continuation of landing action.
         When the clearance between the aircraft and the ground is less than 0.3m, the aircraft will pause landing and wait for user's confirmation.
@@ -249,21 +251,23 @@ class FlightController:
         return_type = DJIError
 
         blocking = callback is None
+        close = True
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
             timeout=timeout,
             return_type=return_type,
             blocking=blocking,
+            close = close
         )
 
     # ---------------------------- END OF FLIGHT ACTIONS ---------------------------
 
     # ------------------------------ VIRTUAL STICK ----------------------------------
-    def setVirtualStickModeEnabled(self, enabled, callback=None, timeout=10):
+    def setVirtualStickModeEnabled(self, enabled, callback=None, timeout=TIMEOUT_VALUE):
         """
         Allow your aircraft to enables/disables virtual stick control mode.
 
@@ -293,7 +297,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -302,7 +306,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def getVirtualStickModeEnabled(self, timeout=1):
+    def getVirtualStickModeEnabled(self, timeout=TIMEOUT_VALUE):
         """
         Gets virtual stick mode status (enabled/disabled)
 
@@ -319,7 +323,7 @@ class FlightController:
         )
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -329,7 +333,7 @@ class FlightController:
         )
 
     def sendVirtualStickFlightControlData(
-        self, flight_control_data, callback=None, timeout=10
+        self, flight_control_data, callback=None, timeout=TIMEOUT_VALUE
     ):
         """
         Sends flight control data using virtual stick commands.
@@ -360,7 +364,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -369,7 +373,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def getVerticalControlMode(self, callback=None, timeout=10):
+    def getVerticalControlMode(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         Gets the vertical control mode for virtual stick)
 
@@ -395,7 +399,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -404,7 +408,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def setVerticalControlMode(self, vertical_control_mode, callback=None, timeout=10):
+    def setVerticalControlMode(self, vertical_control_mode, callback=None, timeout=TIMEOUT_VALUE):
         """
         Sets whether virtual stick vertical controller changes aircraft's altitude or vertical velocity.
 
@@ -430,7 +434,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -442,7 +446,7 @@ class FlightController:
     # ------------------------------- END OF VIRTUAL STICK METHODS--------------------------------
 
     # --------------------------------------- HOME -----------------------------------------
-    def startGoHome(self, callback=None, timeout=10):
+    def startGoHome(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         The aircraft will start to go home.
 
@@ -467,7 +471,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -476,7 +480,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def cancelGoHome(self, callback=None, timeout=10):
+    def cancelGoHome(self, callback=None, timeout=TIMEOUT_VALUE):
         """
         The aircraft will stop going home and will hover in place.
 
@@ -499,7 +503,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -508,7 +512,7 @@ class FlightController:
             blocking=blocking,
         )
 
-    def getHomeLocation(self, callback=None, timeout=10):
+    def getHomeLocation(self, callback=None, timeout=TIMEOUT_VALUE):
         """Gets the home point of the aircraft."""
         checkParameters(
             callback=callback, method_name="getHomeLocation", timeout=timeout,
@@ -523,7 +527,7 @@ class FlightController:
         return_type = LocationCoordinate2D
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -532,7 +536,7 @@ class FlightController:
             return_type=return_type,
         )
 
-    def setHomeLocation(self, homeLocation, callback=None, timeout=10):
+    def setHomeLocation(self, homeLocation, callback=None, timeout=TIMEOUT_VALUE):
         """
         Sets the home location of the aircraft.
 
@@ -561,7 +565,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -630,7 +634,7 @@ class FlightController:
 
     # ------------------------------- END OF CUSTOM METHODS-------------------
 
-    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=1):
+    def setCollisionAvoidanceEnabled(self, enable, callback=None, timeout=TIMEOUT_VALUE):
         """
         Enable collision avoidance. When enabled, the aircraft will stop and try to go around detected obstacles.
         """
@@ -650,7 +654,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

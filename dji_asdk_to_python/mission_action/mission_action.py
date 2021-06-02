@@ -17,7 +17,7 @@ class MissionAction:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def goToAction(self, coordinate, altitude, callback=None, timeout=10):
         """
@@ -37,7 +37,7 @@ class MissionAction:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -67,7 +67,7 @@ class MissionAction:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

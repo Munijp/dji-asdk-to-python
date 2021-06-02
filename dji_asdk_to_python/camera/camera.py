@@ -21,7 +21,7 @@ class Camera:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # -------------------------------- EXPOSURE & WHITE BALANCE ------------------------------------
 
@@ -43,7 +43,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -81,7 +81,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -109,7 +109,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -118,7 +118,7 @@ class Camera:
             blocking=blocking,
         )
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -154,7 +154,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -181,7 +181,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -217,7 +217,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -245,7 +245,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,

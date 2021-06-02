@@ -94,7 +94,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -125,7 +125,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -151,7 +151,7 @@ class RTMPManager:
         return_type = int
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -177,7 +177,7 @@ class RTMPManager:
         return_type = bool
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             timeout=timeout,
@@ -194,7 +194,7 @@ class LiveStreamManager:
 
     def __init__(self, app_ip):
         self.app_ip = app_ip
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def getCV2Manager(self, with_buffer=True):
         """
