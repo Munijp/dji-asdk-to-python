@@ -40,11 +40,7 @@ class Gimbal:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,

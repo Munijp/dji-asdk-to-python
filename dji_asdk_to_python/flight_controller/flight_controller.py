@@ -81,11 +81,7 @@ class FlightController:
         return_type = bool
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -114,11 +110,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -150,11 +142,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -198,11 +186,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -234,11 +218,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -272,11 +252,7 @@ class FlightController:
         close = True
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -319,11 +295,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -349,11 +321,7 @@ class FlightController:
         )
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -394,11 +362,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -433,11 +397,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -472,11 +432,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -513,11 +469,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -549,11 +501,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -577,11 +525,7 @@ class FlightController:
         return_type = LocationCoordinate2D
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -619,11 +563,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -712,11 +652,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,

@@ -43,11 +43,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -85,11 +81,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -117,20 +109,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-            message=message,
-            app_ip=self.app_ip,
-            callback=callback,
-            timeout=timeout,
-            return_type=return_type,
-            blocking=blocking,
-        )
-        return SocketUtils.send(
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -176,11 +155,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -207,11 +182,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -247,11 +218,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -279,11 +246,7 @@ class Camera:
         blocking = callback is None
 
         return SocketUtils.send(
-<<<<<<< Updated upstream
-            socket_obj=self.socket_obj,
-=======
             sock=self.sock,
->>>>>>> Stashed changes
             message=message,
             app_ip=self.app_ip,
             callback=callback,
