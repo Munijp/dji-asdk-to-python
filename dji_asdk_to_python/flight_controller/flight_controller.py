@@ -29,7 +29,7 @@ class FlightController:
         """
         self.app_ip = app_ip
         self._state_callbacks = {}
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def getState(self, callback=None, timeout=10):
         """
@@ -50,7 +50,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            sock = self.sock,
+            socket_obj = self.socket_obj,
             message = message,
             app_ip = self.app_ip,
             callback = callback,
@@ -81,7 +81,7 @@ class FlightController:
         return_type = bool
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -110,7 +110,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -142,7 +142,7 @@ class FlightController:
         return_type = DJIError
 
         result = SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -186,7 +186,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.sock,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -218,7 +218,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -252,7 +252,7 @@ class FlightController:
         close = True
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -295,7 +295,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -321,7 +321,7 @@ class FlightController:
         )
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=None,
@@ -362,7 +362,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -397,7 +397,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -432,7 +432,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -469,7 +469,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -501,7 +501,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -525,7 +525,7 @@ class FlightController:
         return_type = LocationCoordinate2D
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -563,7 +563,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
@@ -652,7 +652,7 @@ class FlightController:
         blocking = callback is None
 
         return SocketUtils.send(
-            socket_obj=self.socket,
+            socket_obj=self.socket_obj,
             message=message,
             app_ip=self.app_ip,
             callback=callback,
