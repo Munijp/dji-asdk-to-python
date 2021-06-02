@@ -20,9 +20,18 @@ from dji_asdk_to_python.errors import (
 BASE_DIR = '/home/jetson-a0002/Desktop/report.txt'
 
 class SocketUtils:
+    
+    # Socket setup variables
+
     APP_PORT = 11111
     FIRST_MESSAGE_LENGTH = 7
-    COUNT = 0
+
+    # Debugging Variables. Set True if debugging socket connection
+
+    DEBUG = False
+    COUNT = 0 
+    CONNECT = 0
+    RECEIVE = 0
 
     # fmt: off
     @staticmethod
@@ -47,52 +56,85 @@ class SocketUtils:
         if not isinstance(sock, socket.socket):
             return SocketError("Socket Invalid")
 
-        # try:
-        #     sock.connect((app_ip, SocketUtils.APP_PORT))
-        # except:
-        #     continue
-
-        # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # sock.settimeout(timeout)  # timeout
-
         try:
-            #print('starting connection')
+            #Triest to connect the socket that is sent via parameter
 
             sock.connect((app_ip, SocketUtils.APP_PORT))
+
+            if SocketUtils.DEBUG:
+                print("CONNECT", SocketUtils.CONNECT)
+                SocketUtils.CONNECT += 1
+
         except socket.error as e:
+
+            #Error when socket is already connected.
+
             if e.errno == 106:
                 pass
+
+            #Any other error in the connection process
+
             else:
                 return SocketError("%s" % e)
+
         except socket.timeout as e:
             return SocketError("%s" % e)
 
         try:
-            #print('connection successful')
+
+            #Sends the request/message
 
             sock.send(message.encode("utf-8"))
 
-            #print('Message sended')
-
-            print("COUNT", SocketUtils.COUNT)
-            SocketUtils.COUNT = SocketUtils.COUNT + 1
-
-            # with open(BASE_DIR, 'w') as f:
-            #     f.write(f'Count: {SocketUtils.COUNT}')
-            #     f.close()
+            if SocketUtils.DEBUG:
+                print("COUNT", SocketUtils.COUNT)
+                SocketUtils.COUNT = SocketUtils.COUNT + 1
 
         except socket.error as e:
             return SocketError("%s" % e)
         except socket.timeout as e:
             return SocketError("%s" % e)
 
-        sys.stdout.flush()
 
         if blocking:
-            res = SocketUtils.receive(sock, callback, timeout, return_type)
+            #Iterator variables
+
+            countTimes = 0
+            maxIteration = 10
+
+            #Loop to secure completion of every instruction
+
+            while(countTimes < maxIteration):
+
+                #Receive info from android sdk after callback
+
+                res = SocketUtils.receive(sock, callback, timeout, return_type)
+
+                countTimes+=1
+
+                #If condition, in case the last iteration receives timeout
+
+                if countTimes == 10 and res == "timeout":
+                    print("CRITICAL ERROR")
+                
+                #Elif, in case of timeout, resend instruction
+
+                elif res == "timeout":
+                    sock.send(message.encode("utf-8"))
+                
+                #Else, instruction received.
+
+                else:
+                    if SocketUtils.DEBUG:
+                        print("RECIEVE", SocketUtils.RECEIVE)
+                        SocketUtils.RECEIVE += 1    
+                    break
+            
+            #In case landing is confirmed, socket is closed
+
             if close:
                 sock.close()
-            # sock.close()
+
             return res
         else:
             if listener is not None:
@@ -122,7 +164,7 @@ class SocketUtils:
         except socket.error as e:
             server_message = SocketError("%s" % e)
         except socket.timeout as e:
-            server_message = SocketError("%s" % e)
+            return "timeout"
         except UnicodeDecodeError as e:
             server_message = SocketError("%s" % e)
         except json.JSONDecodeError as e:
