@@ -28,7 +28,7 @@ class SocketUtils:
 
     # Debugging Variables. Set True if debugging socket connection
 
-    DEBUG = False
+    DEBUG = True
     COUNT = 0 
     CONNECT = 0
     RECEIVE = 0
@@ -111,15 +111,15 @@ class SocketUtils:
                 res = SocketUtils.receive(sock, callback, timeout, return_type)
 
                 countTimes+=1
-
                 #If condition, in case the last iteration receives timeout
 
-                if countTimes == 10 and res == "timeout":
+                if countTimes == 10 and res == "SocketError instance with data: timed out":
                     print("CRITICAL ERROR")
                 
                 #Elif, in case of timeout, resend instruction
 
-                elif res == "timeout":
+                elif res == "SocketError instance with data: timed out":
+                    print("test",res)
                     sock.send(message.encode("utf-8"))
                 
                 #Else, instruction received.
@@ -127,7 +127,8 @@ class SocketUtils:
                 else:
                     if SocketUtils.DEBUG:
                         print("RECIEVE", SocketUtils.RECEIVE)
-                        SocketUtils.RECEIVE += 1    
+                        SocketUtils.RECEIVE += 1
+                        print("COUNTTIMES",countTimes)
                     break
             
             #In case landing is confirmed, socket is closed
