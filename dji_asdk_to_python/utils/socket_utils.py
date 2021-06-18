@@ -114,6 +114,7 @@ class SocketUtils:
                 #If condition, in case the last iteration receives timeout
 
                 if countTimes == 10 and str(res) == "SocketError instance with data: timed out":
+                    print(countTimes)
                     print("CRITICAL ERROR")
                 
                 #Elif, in case of timeout, resend instruction

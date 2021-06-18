@@ -76,6 +76,8 @@ class CV2_Manager:
 class RTMPManager:
     def __init__(self, app_ip):
         self.app_ip = app_ip
+        self._state_callbacks = {}
+        self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def isStreaming(self, timeout=10):
         """
