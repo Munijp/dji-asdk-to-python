@@ -181,6 +181,7 @@ class SocketUtils:
         listener.sock = sock  # link listener with socket
         while listener.running:
             server_message = SocketUtils.receive_data_from_sock(sock, timeout)
+            print("SERVER MESSAGE RECEIVE DATA",server_message)
             if not listener.running:
                 break
             server_message = SocketUtils.parse_message(server_message, None)

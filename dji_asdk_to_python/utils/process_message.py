@@ -15,6 +15,8 @@ from dji_asdk_to_python.flight_controller.virtual_stick.control_mode import (
     VerticalControlMode,
 )
 
+import datetime
+
 from dji_asdk_to_python.errors import (
     JsonError,
     DJIError,
@@ -81,6 +83,7 @@ def data_to_battery_state(data):
 
 def process_return_type(server_message, return_type):
     from dji_asdk_to_python.mission_control.waypoint import WaypointMissionState
+    print("PROCESS RETURN TYPE %s: " % return_type, str(datetime.datetime.now()), server_message)
 
     if return_type == FlightControllerState:
         result = data_to_flight_controller_state(server_message["data"])

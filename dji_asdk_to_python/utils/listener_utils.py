@@ -18,7 +18,9 @@ from dji_asdk_to_python.flight_controller.flight_controller_state import (
 
 
 def process_waypoint_mission_operator_listener(listener, message):
-    print("wpmolistener", message)
+    if not "method" in message:
+        logging.info("Method listener not recognized")
+        return
     method = message["method"]
     if method == "onExecutionStart":
         onExecutionStart = listener.onExecutionStart
@@ -89,8 +91,6 @@ def process_waypoint_mission_operator_listener(listener, message):
             getProgress, getPreviousState, getCurrentState
         )
         onExecutionUpdate(waypoint_mission_execution_event)
-    else:
-        raise Exception("method listener not recognized")
 
 
 def process_flight_controller_state_callback(listener, message):
