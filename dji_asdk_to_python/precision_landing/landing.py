@@ -389,11 +389,14 @@ class ArucoLanding:
 
         camera = self.aircraft.getCamera()
 
+        print("LANDING IS NIGHT", is_night)
+
         if is_night:
             camera.setExposureMode(ExposureMode.PROGRAM)
+            camera.setISO(ISO.ISO_100)
         else:
             camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_100)
+            camera.setISO(ISO.ISO_800)
             camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
 
         start = time.perf_counter()
