@@ -54,31 +54,9 @@ class SocketUtils:
         # sock.settimeout(timeout)  # timeout
 
         try:
-            #print('starting connection')
-
             sock.connect((app_ip, SocketUtils.APP_PORT))
-        except socket.error as e:
-            if e.errno == 106:
-                pass
-            else:
-                return SocketError("%s" % e)
-        except socket.timeout as e:
-            return SocketError("%s" % e)
-
-        try:
-            #print('connection successful')
-
             sock.send(message.encode("utf-8"))
-
-            #print('Message sended')
-
-            print("COUNT", SocketUtils.COUNT)
-            SocketUtils.COUNT = SocketUtils.COUNT + 1
-
-            # with open(BASE_DIR, 'w') as f:
-            #     f.write(f'Count: {SocketUtils.COUNT}')
-            #     f.close()
-
+            
         except socket.error as e:
             return SocketError("%s" % e)
         except socket.timeout as e:

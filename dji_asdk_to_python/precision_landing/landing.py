@@ -251,6 +251,12 @@ class ArucoSingleTracker:
             # -- array of rotation and position of each marker in camera frame
             # -- rvec = [[rvec_1], [rvec_2], ...]    attitude of the marker respect to camera frame
             # -- tvec = [[tvec_1], [tvec_2], ...]    position of the marker in camera frame
+            
+            print("LANDING - track: corners ", corners) # DEBUG
+            print("LANDING - track: marker_size ", marker_size) # DEBUG
+            print("LANDING - track: _camera_matrix ", self._camera_matrix) # DEBUG
+            print("LANDING - track: _camera_distortion ", self._camera_distortion) # DEBUG
+            
             rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(
                 corners, marker_size, self._camera_matrix, self._camera_distortion
             )
@@ -378,6 +384,8 @@ class ArucoLanding:
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
 
+        print("LANDING - isStreaming ", self.cv2_manager.isStreaming()) # DEBUG
+
         gimbal = self.aircraft.getGimbal()
         gimbal.rotate(-90, 0, 0)
 
@@ -402,15 +410,23 @@ class ArucoLanding:
         fps_limiter = LimitFPS(fps=15)
 
         while True:
+
+            print("LANDING - isStreaming (Loop) ", self.cv2_manager.isStreaming()) # DEBUG
+
             end = time.perf_counter()
             fcd.setPitch(0)
             fcd.setYaw(0)
             fcd.setRoll(0)
             fcd.setVerticalThrottle(0)
 
-            frame = self.cv2_manager.getFrame()
+            frame = self.cv2_manager.getFrame()            
+
             if frame is None:
+                print("LANDING - frame is None")
                 continue
+            
+
+            print("LANDING - frame ", frame) # DEBUG
 
             (
                 marker_found,
@@ -428,6 +444,8 @@ class ArucoLanding:
                 yaw_camera,
                 pitch_camera,
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
+
+            print("LANDING - marker_found ", marker_found) # DEBUG
 
             if marker_found:
                 if not fps_limiter():
