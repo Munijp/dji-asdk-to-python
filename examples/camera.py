@@ -13,9 +13,25 @@ print("Exposure Mode : %s" % camera.getExposureMode())
 print("ISO : %s" % camera.getISO())
 print("Shutter Speed : %s" % camera.getShutterSpeed())
 
-print(camera.setExposureMode(ExposureMode.PROGRAM))
-# print(camera.setISO(ISO.ISO_800))
-# print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000))
+# print(camera.setExposureMode(ExposureMode.PROGRAM))
+
+# NIGHT SETTINGS
+# TO DEFINE...
+
+# ARUCA LANDING - DAY SETTINGS
+print(camera.setExposureMode(ExposureMode.MANUAL))
+print(camera.setISO(ISO.ISO_100))
+print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000))
+
+# ARUCA LANDING - DAY SHADOW SETTINGS
+print(camera.setExposureMode(ExposureMode.MANUAL))
+print(camera.setISO(ISO.ISO_400))
+print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000))
+
+# ARUCA LANDING - Night SETTINGS
+print(camera.setExposureMode(ExposureMode.MANUAL))
+print(camera.setISO(ISO.ISO_800))
+print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000))
 
 print("Exposure Mode : %s" % camera.getExposureMode())
 print("ISO : %s" % camera.getISO())

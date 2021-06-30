@@ -374,13 +374,16 @@ class ArucoLanding:
             time.sleep(1)
 
     def start(self, is_night):
+        print("Landing - Starting Stream")
         result = self.cv2_manager.startStream()
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
-
+        
+        print("Landing - Gimbal")
         gimbal = self.aircraft.getGimbal()
         gimbal.rotate(-90, 0, 0)
 
+        print("Landing - Flight Controller")
         fc = self.aircraft.getFlightController()
         fc.setVirtualStickModeEnabled(True)
         fcd = FlightControlData()
@@ -390,17 +393,25 @@ class ArucoLanding:
         camera = self.aircraft.getCamera()
 
         if is_night:
-            camera.setExposureMode(ExposureMode.PROGRAM)
+            print(camera.setExposureMode(ExposureMode.MANUAL))
+            print(camera.setISO(ISO.ISO_800))
+            print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000))
         else:
-            camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_100)
-            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+            print(camera.setExposureMode(ExposureMode.MANUAL))
+            print(camera.setISO(ISO.ISO_400))
+            print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000))
+            # print(camera.setExposureMode(ExposureMode.MANUAL))
+            # print(camera.setISO(ISO.ISO_400))
+            # camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+
+
 
         start = time.perf_counter()
         last_z = sys.maxsize
         fps = FPS()
         fps_limiter = LimitFPS(fps=15)
 
+        print("Landing - Before Loop")
         while True:
             end = time.perf_counter()
             fcd.setPitch(0)
