@@ -354,7 +354,8 @@ class ArucoLanding:
 
     def __init__(self, aircraft, marker_id, marker_size_cm, width, height, camera_matrix, camera_distortion):
         self.aircraft = aircraft
-        self.cv2_manager = self.aircraft.getLiveStreamManager().getCV2Manager(with_buffer=False)
+        self.stream_manager = self.aircraft.getLiveStreamManager()
+        self.cv2_manager = self.stream_manager.getCV2Manager(with_buffer=False)
         self.cv2_manager.setWidth(width)
         self.cv2_manager.setHeigth(height)
 
@@ -375,6 +376,8 @@ class ArucoLanding:
 
     def start(self, is_night):
         result = self.cv2_manager.startStream()
+        print("result for star stream: ", result)
+
         if isinstance(result, CustomError):
             raise Exception("%s" % result)
 
@@ -411,7 +414,8 @@ class ArucoLanding:
             frame = self.cv2_manager.getFrame()
             if frame is None:
                 continue
-
+            
+            print("frame state none: ", frame is None)
             (
                 marker_found,
                 x_marker,
