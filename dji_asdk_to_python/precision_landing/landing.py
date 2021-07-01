@@ -226,11 +226,6 @@ class ArucoSingleTracker:
 
         # -- Convert in gray scale
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("window", gray)
-        cv2.waitKey(0)
-        cv2.imshow("window", frame)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
         # -- Find all the aruco markers in the image
         corners, ids, rejected = aruco.detectMarkers(
             image=gray,
@@ -239,7 +234,11 @@ class ArucoSingleTracker:
             cameraMatrix=self._camera_matrix,
             distCoeff=self._camera_distortion,
         )
-
+        
+        cv2.imshow("window", corners)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        
         pitch_marker, roll_marker, yaw_marker = None, None, None
         pitch_camera, roll_camera, yaw_camera = None, None, None
 
