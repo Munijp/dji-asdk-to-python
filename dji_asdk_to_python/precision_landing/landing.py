@@ -397,8 +397,8 @@ class ArucoLanding:
             camera.setExposureMode(ExposureMode.PROGRAM)
         else:
             camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_100)
-            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
 
         start = time.perf_counter()
         last_z = sys.maxsize
