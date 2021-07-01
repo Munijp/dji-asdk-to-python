@@ -219,18 +219,18 @@ class ArucoSingleTracker:
 
         return np.array([x, y, z])
 
-    def track(
-        self, frame, id_to_find=None, marker_size=None,
-    ):
-
+    def track(self, frame, id_to_find=None, marker_size=None):
+        
         marker_found = False
         x = y = z = pitch_camera = x_camera = y_camera = z_camera = 0
 
         # -- Convert in gray scale
-        gray = cv2.cvtColor(
-            frame, cv2.COLOR_BGR2GRAY
-        )  # -- remember, OpenCV stores color images in Blue, Green, Red
-
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        cv2.imshow("window", gray)
+        cv2.waitKey(0)
+        cv2.imshow("window", frame)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         # -- Find all the aruco markers in the image
         corners, ids, rejected = aruco.detectMarkers(
             image=gray,
@@ -239,10 +239,12 @@ class ArucoSingleTracker:
             cameraMatrix=self._camera_matrix,
             distCoeff=self._camera_distortion,
         )
+
         pitch_marker, roll_marker, yaw_marker = None, None, None
         pitch_camera, roll_camera, yaw_camera = None, None, None
 
         planned_ids = []
+
         if ids is not None:
             planned_ids = list(itertools.chain(*ids))
         if id_to_find in planned_ids:
