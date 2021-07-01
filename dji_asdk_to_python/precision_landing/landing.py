@@ -251,7 +251,10 @@ class ArucoSingleTracker:
             # -- rvec = [[rvec_1], [rvec_2], ...]    attitude of the marker respect to camera frame
             # -- tvec = [[tvec_1], [tvec_2], ...]    position of the marker in camera frame
             rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(
-                corners, marker_size, self._camera_matrix, self._camera_distortion
+                corners = corners, 
+                markerLength = marker_size, 
+                cameraMatrix = self._camera_matrix, 
+                distCoeffs = self._camera_distortion
             )
 
             # -- Unpack the output
