@@ -19,9 +19,11 @@ class VideoCaptureWithoutBuffer():
         while self.streaming:
             ret, frame = self.cap.read()
             if ret:
+                print("Frame working status: ",frame is None)
                 self.frame = frame
             time.sleep(1/60)
 
+        print("TEST VIDEOCAPTURE WITHOUT BUFFER READER")
     def read(self):
         ret, frame = self.frame is not None, self.frame
         self.frame = None
@@ -48,9 +50,14 @@ class CV2_Listener(object):
     def start(self):
         cap_str = "tcp://%s:%s" % (self.app_ip, CV2_Listener.STREAMING_PORT)
         if self.with_buffer:
+            print("With buffer - PRE")
             self.cap = cv2.VideoCapture(cap_str)
+            print("With buffer - POST")
         else:
+            print("Without buffer - PRE")
             self.cap = VideoCaptureWithoutBuffer(cv2.VideoCapture(cap_str))
+            print("Without buffer - POST")
+        print("Video capture", str(self.cap))
         self.streaming = True
 
     def getFrame(self):
