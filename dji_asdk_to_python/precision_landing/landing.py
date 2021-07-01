@@ -235,9 +235,7 @@ class ArucoSingleTracker:
             distCoeff=self._camera_distortion,
         )
         
-        cv2.imshow("window", corners)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        print("the type of corners is: ", type(corners))
         
         pitch_marker, roll_marker, yaw_marker = None, None, None
         pitch_camera, roll_camera, yaw_camera = None, None, None
@@ -357,8 +355,8 @@ class ArucoLanding:
         self.aircraft = aircraft
         self.stream_manager = self.aircraft.getLiveStreamManager()
         self.cv2_manager = self.stream_manager.getCV2Manager(with_buffer=False)
-        self.cv2_manager.setWidth(width)
-        self.cv2_manager.setHeigth(height)
+        self.cv2_manager.setWidth(width-1)
+        self.cv2_manager.setHeigth(height-1)
 
         self.marker_id = marker_id
         self.marker_size_cm = marker_size_cm
