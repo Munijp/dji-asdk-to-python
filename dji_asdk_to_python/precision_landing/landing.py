@@ -373,6 +373,23 @@ class ArucoLanding:
             fc.setVirtualStickModeEnabled(True)
             time.sleep(1)
 
+    def camera_iso_setup(self, camera, cameraType):
+        if cameraType == "DAY_SUNNY":
+            camera.setISO(ISO.ISO_200)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        elif cameraType == "DAY_AFTERNOON":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
+        elif cameraType == "EVENING":
+            camera.setISO(ISO.ISO_800)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        elif cameraType == "MORNING":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        else:
+            camera.setExposureMode(ExposureMode.PROGRAM)
+
+
     def start(self, is_night):
         result = self.cv2_manager.startStream()
         if isinstance(result, CustomError):
@@ -391,19 +408,25 @@ class ArucoLanding:
 
         print("LANDING IS NIGHT", is_night)
 
-        if is_night:
-            camera.setExposureMode(ExposureMode.PROGRAM)
-            camera.setISO(ISO.ISO_100)
-        else:
-            camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_800)
-            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        
+        camera.setExposureMode(ExposureMode.MANUAL)
+
+        cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
+
+        # if is_night:
+        #     camera.setExposureMode(ExposureMode.PROGRAM)
+        #     camera.setISO(ISO.ISO_100)
+        # else:
+        #     camera.setExposureMode(ExposureMode.MANUAL)
+        #     camera.setISO(ISO.ISO_800)
+        #     camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
 
         start = time.perf_counter()
         last_z = sys.maxsize
         fps = FPS()
         fps_limiter = LimitFPS(fps=15)
-
+        i = 0
+        self.camera_iso_setup(camera, cameraTypeSettings[i])
         while True:
             end = time.perf_counter()
             fcd.setPitch(0)
@@ -413,6 +436,12 @@ class ArucoLanding:
 
             frame = self.cv2_manager.getFrame()
             if frame is None:
+                i = i+1
+                if i < len(cameraTypeSettings):
+                    self.camera_iso_setup(camera, cameraTypeSettings[i])
+                else:
+                    i = 0
+                    self.camera_iso_setup(camera, cameraTypeSettings[i])
                 continue
 
             (
