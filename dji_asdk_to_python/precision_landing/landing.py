@@ -411,8 +411,8 @@ class ArucoLanding:
         
         camera.setExposureMode(ExposureMode.MANUAL)
 
-        #cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
-        cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON"]
+        cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
+        #cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON"]
         # if is_night:
         #     camera.setExposureMode(ExposureMode.PROGRAM)
         #     camera.setISO(ISO.ISO_100)
@@ -441,15 +441,16 @@ class ArucoLanding:
             if maxChance <= 100:
                 maxChance = maxChance+1
 
-            if frame is None and not rightIso and maxChance > 100:
-                maxChance = 0
-                isoCountChanger = 0
-                i = i+1
-                if i < len(cameraTypeSettings):
-                    self.camera_iso_setup(camera, cameraTypeSettings[i])
-                else:
-                    i = 0
-                    self.camera_iso_setup(camera, cameraTypeSettings[i])
+            if frame is None:
+                if not rightIso and maxChance > 100:
+                    maxChance = 0
+                    isoCountChanger = 0
+                    i = i+1
+                    if i < len(cameraTypeSettings):
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
+                    else:
+                        i = 0
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
                 continue
             elif frame is not None and not rightIso:
                 isoCountChanger = isoCountChanger+1
