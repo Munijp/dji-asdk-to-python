@@ -12,10 +12,12 @@ camera = drone.getCamera()
 print("Exposure Mode : %s" % camera.getExposureMode())
 print("ISO : %s" % camera.getISO())
 print("Shutter Speed : %s" % camera.getShutterSpeed())
-
 print(camera.setExposureMode(ExposureMode.PROGRAM))
-print(camera.setISO(ISO.ISO_800))
-# print(camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000))
+
+# ARUCO LANDING FOR ISO AFTERNOON DAY
+# print(camera.setExposureMode(ExposureMode.MANUAL))
+# camera.setISO(ISO.ISO_400)
+# camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
 
 print("Exposure Mode : %s" % camera.getExposureMode())
 print("ISO : %s" % camera.getISO())

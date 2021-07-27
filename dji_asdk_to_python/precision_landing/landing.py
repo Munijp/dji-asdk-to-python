@@ -373,6 +373,23 @@ class ArucoLanding:
             fc.setVirtualStickModeEnabled(True)
             time.sleep(1)
 
+    def camera_iso_setup(self, camera, cameraType):
+        if cameraType == "DAY_SUNNY":
+            camera.setISO(ISO.ISO_200)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        elif cameraType == "DAY_AFTERNOON":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
+        elif cameraType == "EVENING":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        elif cameraType == "MORNING":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        else:
+            camera.setExposureMode(ExposureMode.PROGRAM)
+
+
     def start(self, is_night):
         result = self.cv2_manager.startStream()
         if isinstance(result, CustomError):
@@ -391,19 +408,28 @@ class ArucoLanding:
 
         print("LANDING IS NIGHT", is_night)
 
-        if is_night:
-            camera.setExposureMode(ExposureMode.PROGRAM)
-            camera.setISO(ISO.ISO_100)
-        else:
-            camera.setExposureMode(ExposureMode.MANUAL)
-            camera.setISO(ISO.ISO_800)
-            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        
+        camera.setExposureMode(ExposureMode.MANUAL)
+
+        cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
+        #cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON"]
+        # if is_night:
+        #     camera.setExposureMode(ExposureMode.PROGRAM)
+        #     camera.setISO(ISO.ISO_100)
+        # else:
+        #     camera.setExposureMode(ExposureMode.MANUAL)
+        #     camera.setISO(ISO.ISO_800)
+        #     camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
 
         start = time.perf_counter()
         last_z = sys.maxsize
         fps = FPS()
         fps_limiter = LimitFPS(fps=15)
-
+        i = 0
+        isoCountChanger = 0
+        maxChance = 0
+        rightIso = False
+        self.camera_iso_setup(camera, cameraTypeSettings[i])
         while True:
             end = time.perf_counter()
             fcd.setPitch(0)
@@ -412,8 +438,25 @@ class ArucoLanding:
             fcd.setVerticalThrottle(0)
 
             frame = self.cv2_manager.getFrame()
+            if maxChance <= 100:
+                maxChance = maxChance+1
+
             if frame is None:
+                if not rightIso and maxChance > 100:
+                    maxChance = 0
+                    isoCountChanger = 0
+                    i = i+1
+                    if i < len(cameraTypeSettings):
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
+                    else:
+                        i = 0
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
                 continue
+            elif frame is not None and not rightIso:
+                isoCountChanger = isoCountChanger+1
+                if isoCountChanger >= 90:
+                    rightIso = True
+
 
             (
                 marker_found,
@@ -433,6 +476,7 @@ class ArucoLanding:
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
             if marker_found:
+                rightIso = True
                 if not fps_limiter():
                     continue
                 fps_ = float(fps())
@@ -440,7 +484,6 @@ class ArucoLanding:
                     sample_time = 1/float(fps_)
                 except:
                     sample_time = 0.1
-
                 print("FPS marker detection %s" % (fps_))
                 print("x %s y %s z %s yaw %s" % (x_marker, y_marker, z_marker, yaw_camera))
 
