@@ -374,7 +374,10 @@ class ArucoLanding:
             time.sleep(1)
 
     def camera_iso_setup(self, camera, cameraType):
-        if cameraType == "DAY_SUNNY":
+        if cameraType == "DAY_VERY_SUNNY":
+            camera.setISO(ISO.ISO_50)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        elif cameraType == "DAY_SUNNY":
             camera.setISO(ISO.ISO_200)
             camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
         elif cameraType == "DAY_AFTERNOON":
@@ -411,7 +414,7 @@ class ArucoLanding:
         
         camera.setExposureMode(ExposureMode.MANUAL)
 
-        cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
+        cameraTypeSettings = ["DAY_VERY_SUNNY","DAY_SUNNY","DAY_AFTERNOON","EVENING","MORNING","PROGRAM"]
         #cameraTypeSettings = ["DAY_SUNNY","DAY_AFTERNOON"]
         # if is_night:
         #     camera.setExposureMode(ExposureMode.PROGRAM)
