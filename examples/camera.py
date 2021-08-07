@@ -31,8 +31,8 @@ elif cameraType == "DAY_AFTERNOON":
     camera.setISO(ISO.ISO_400)
     camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
 elif cameraType == "EVENING":
-    camera.setISO(ISO.ISO_800)
-    camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
+    camera.setISO(ISO.ISO_6400)
+    camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
 elif cameraType == "MORNING":
     camera.setISO(ISO.ISO_400)
     camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
