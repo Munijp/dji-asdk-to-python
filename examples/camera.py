@@ -4,7 +4,7 @@ from dji_asdk_to_python.camera.exposure_mode import ExposureMode
 from dji_asdk_to_python.camera.iso import ISO
 from dji_asdk_to_python.camera.shutter_speed import ShutterSpeed
 
-APP_IP = "192.168.100.210"
+APP_IP = "192.168.1.14"
 
 drone = Aircraft(APP_IP)
 camera = drone.getCamera()
@@ -19,7 +19,7 @@ camera = drone.getCamera()
 # camera.setISO(ISO.ISO_400)
 # camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
 
-cameraType = "DAY_VERY_SUNNY"
+cameraType = "EVENING"
 
 if cameraType == "DAY_VERY_SUNNY":
     camera.setISO(ISO.ISO_50)
