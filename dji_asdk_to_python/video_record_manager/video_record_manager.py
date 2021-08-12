@@ -15,7 +15,7 @@ class VideoRecordManager:
 
     def receive_frames(self):
         streaming_manager = self.aircraft.getLiveStreamManager()
-        cv2_manager = streaming_manager.getCV2Manager(with_buffer=False)
+        cv2_manager = streaming_manager.getCV2Manager(with_buffer=True)
         cv2_manager.setWidth(VideoRecordManager.VIDEO_WIDTH)
         cv2_manager.setHeigth(VideoRecordManager.VIDEO_HEIGHT)
         cv2_manager.startStream()
