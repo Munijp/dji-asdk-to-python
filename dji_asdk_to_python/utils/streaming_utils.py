@@ -47,9 +47,12 @@ class CV2_Listener(object):
 
     def start(self):
         cap_str = "tcp://%s:%s" % (self.app_ip, CV2_Listener.STREAMING_PORT)
+        print(cap_str)
         if self.with_buffer:
+            print("video cap with buffer")
             self.cap = cv2.VideoCapture(cap_str)
         else:
+            print("video cap without buffer")
             self.cap = VideoCaptureWithoutBuffer(cv2.VideoCapture(cap_str))
         self.streaming = True
 
