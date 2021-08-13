@@ -132,6 +132,36 @@ class WaypointMissionOperator:
             blocking=blocking,
         )
 
+    def stopMission(self, callback=None, timeout=10):
+        "Stops the executing or paused mission."
+        "It can only be called when the getCurrentState"
+        "is one of the following: - EXECUTING - "
+        "EXECUTION_PAUSED After a mission is stopped"
+        "successfully, getCurrentState will become READY_TO_UPLOAD."
+
+        checkParameters(callback=callback,
+                        method_name="stopMission", timeout=timeout)
+
+        message = MessageBuilder.build_message(
+            message_method=MessageBuilder.STOP_MISSION,
+            message_class=MessageBuilder.WAYPOINT_MISSION_OPERATOR,
+            message_data=None,
+        )
+
+        blocking = callback is None
+
+        return_type = DJIError
+
+        return SocketUtils.send(
+            message=message,
+            app_ip=self.app_ip,
+            callback=callback,
+            timeout=timeout,
+            return_type=return_type,
+            blocking=blocking,
+        )
+
+
     def setAutoFlightSpeed(self, speed, callback=None, timeout=10):
         """Set the flight speed while the mission is executing automatically (without manual joystick speed input)"""
 
