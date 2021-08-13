@@ -46,7 +46,7 @@ while elapsed_seconds < STREAMING_DURATION:
             countToZero = 0
         continue
 
-    cv2.imshow("frame", frame)
+    # cv2.imshow("frame", frame)
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
