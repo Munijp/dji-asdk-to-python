@@ -75,7 +75,7 @@ def main():
     # ---- DEFAULT VALUES ---
     SAVE_FOLDER = "."
     FILE_NAME = "snapshot"
-    APP_IP = "192.168.100.206"
+    APP_IP = "192.168.1.14"
     FRAME_WIDTH = 1280
     FRAME_HEIGHT = 720
 

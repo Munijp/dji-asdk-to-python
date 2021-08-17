@@ -445,6 +445,7 @@ class ArucoLanding:
                 maxChance = maxChance+1
 
             if frame is None:
+                print("FRAME IS NONE")
                 if not rightIso and maxChance > 100:
                     result = self.cv2_manager.startStream()
                     maxChance = 0
@@ -479,9 +480,13 @@ class ArucoLanding:
                 pitch_camera,
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
+            print("PRE MARKER FOUND")
+
             if marker_found:
+                print("MARKER FOUND")
                 rightIso = True
                 if not fps_limiter():
+                    print("2, FPS LIMITER YES")
                     continue
                 fps_ = float(fps())
                 try:
