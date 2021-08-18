@@ -19,7 +19,7 @@ camera = drone.getCamera()
 # camera.setISO(ISO.ISO_400)
 # camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
 
-cameraType = "EVENING"
+cameraType = "DAY_SUNNY"
 
 if cameraType == "DAY_VERY_SUNNY":
     camera.setISO(ISO.ISO_50)
