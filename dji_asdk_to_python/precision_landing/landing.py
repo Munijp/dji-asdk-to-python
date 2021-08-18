@@ -462,7 +462,6 @@ class ArucoLanding:
                 if isoCountChanger >= 90:
                     rightIso = True
 
-
             (
                 marker_found,
                 x_marker,
@@ -480,20 +479,20 @@ class ArucoLanding:
                 pitch_camera,
             ) = self.ast.track(frame, self.marker_id, self.marker_size_cm)
 
-            print("PRE MARKER FOUND")
+            print("1 PRE MARKER FOUND")
 
             if marker_found:
-                print("MARKER FOUND")
+                print("2 MARKER FOUND")
                 rightIso = True
                 if not fps_limiter():
-                    print("2, FPS LIMITER YES")
+                    print("3  FPS LIMITER YES")
                     continue
                 fps_ = float(fps())
                 try:
                     sample_time = 1/float(fps_)
                 except:
                     sample_time = 0.1
-                print("FPS marker detection %s" % (fps_))
+                print("4 FPS marker detection %s" % (fps_))
                 print("x %s y %s z %s yaw %s" % (x_marker, y_marker, z_marker, yaw_camera))
 
                 start = time.perf_counter()
