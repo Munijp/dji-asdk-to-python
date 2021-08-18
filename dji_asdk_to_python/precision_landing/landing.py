@@ -446,22 +446,8 @@ class ArucoLanding:
 
             if frame is None:
                 print("FRAME IS NONE")
-                if not rightIso and maxChance > 100:
-                    result = self.cv2_manager.startStream()
-                    maxChance = 0
-                    isoCountChanger = 0
-                    i = i+1
-                    if i < len(cameraTypeSettings):
-                        self.camera_iso_setup(camera, cameraTypeSettings[i])
-                    else:
-                        i = 0
-                        self.camera_iso_setup(camera, cameraTypeSettings[i])
+                result = self.cv2_manager.startStream()
                 continue
-            elif frame is not None and not rightIso:
-                isoCountChanger = isoCountChanger+1
-                if isoCountChanger >= 90:
-                    rightIso = True
-
             (
                 marker_found,
                 x_marker,
@@ -483,7 +469,13 @@ class ArucoLanding:
 
             if marker_found:
                 print("2 MARKER FOUND")
-                rightIso = True
+
+                if not rightIso:
+                    isoCountChanger = isoCountChanger+1
+                    if isoCountChanger >= 90:
+                        print("FOUND RIGHT ISO")
+                        rightIso = True
+
                 if not fps_limiter():
                     print("3  FPS LIMITER YES")
                     continue
@@ -559,6 +551,10 @@ class ArucoLanding:
                 fcd.setRoll(0)
                 fcd.setVerticalThrottle(0)
             else:
+                print("2 MARKER NOT FOUND")
+                flight_controller_state = fc.getState()
+                flying = flight_controller_state.isFlying()
+
                 if last_z < ArucoLanding.LANDING_CM and (end - start) > ArucoLanding.SECONDS_BEFORE_GET_UP:
                     fc.setVirtualStickModeEnabled(True)
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
@@ -566,9 +562,20 @@ class ArucoLanding:
                     self.resetPid()
                     end = time.perf_counter()
                     start = time.perf_counter()
+                
+                if flying is not None and flying and not rightIso and maxChance > 100:
+                    print("FINDING NEW ISO")
+                    maxChance = 0
+                    isoCountChanger = 0
+                    i = i+1
+                    if i < len(cameraTypeSettings):
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
+                    else:
+                        i = 0
+                        self.camera_iso_setup(camera, cameraTypeSettings[i])
 
-                flight_controller_state = fc.getState()
-                flying = flight_controller_state.isFlying()
+
+
                 if flying is not None and not flying:
                     camera.setExposureMode(ExposureMode.PROGRAM)
                     fc.setCollisionAvoidanceEnabled(True)
