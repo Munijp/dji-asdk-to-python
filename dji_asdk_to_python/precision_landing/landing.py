@@ -479,7 +479,7 @@ class ArucoLanding:
                         rightIso = True
 
                 if not fps_limiter():
-                    print("3  FPS LIMITER YES")
+                    print("3  FPS LIMITER NO")
                     continue
                 fps_ = float(fps())
                 try:
@@ -503,6 +503,9 @@ class ArucoLanding:
 
                 xoutput = self.pidx.output
                 youtput = self.pidy.output
+
+                print("XOUTPUT, ", xoutput)
+                print("YOUTPUT, ", youtput)
 
                 fcd.setPitch(youtput)
                 fcd.setRoll(xoutput * -1)
@@ -553,7 +556,8 @@ class ArucoLanding:
                 fcd.setRoll(0)
                 fcd.setVerticalThrottle(0)
             else:
-                print("2 MARKER NOT FOUND")
+                print("2 MARKER NOT FOUND, LAST Z ", last_z)
+                print("TIME BEFORE GOING UP ",(end - start))
 
                 if last_z < ArucoLanding.LANDING_CM and (end - start) > ArucoLanding.SECONDS_BEFORE_GET_UP:
                     print("3 FIXING WHEN MARKER NOT FOUND")
