@@ -374,6 +374,9 @@ class ArucoLanding:
             time.sleep(1)
 
     def camera_iso_setup(self, camera, cameraType):
+
+        camera.setExposureMode(ExposureMode.MANUAL)
+
         if cameraType == "DAY_VERY_SUNNY":
             camera.setISO(ISO.ISO_50)
             camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
@@ -552,8 +555,6 @@ class ArucoLanding:
                 fcd.setVerticalThrottle(0)
             else:
                 print("2 MARKER NOT FOUND")
-                flight_controller_state = fc.getState()
-                flying = flight_controller_state.isFlying()
 
                 if last_z < ArucoLanding.LANDING_CM and (end - start) > ArucoLanding.SECONDS_BEFORE_GET_UP:
                     fc.setVirtualStickModeEnabled(True)
@@ -563,6 +564,8 @@ class ArucoLanding:
                     end = time.perf_counter()
                     start = time.perf_counter()
                 
+                flight_controller_state = fc.getState()
+                flying = flight_controller_state.isFlying()
                 if flying is not None and flying and not rightIso and maxChance > 100:
                     print("FINDING NEW ISO")
                     maxChance = 0
