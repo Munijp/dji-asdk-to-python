@@ -449,7 +449,6 @@ class ArucoLanding:
 
             if frame is None:
                 print("FRAME IS NONE")
-                result = self.cv2_manager.startStream()
                 continue
             (
                 marker_found,
@@ -557,6 +556,7 @@ class ArucoLanding:
                 print("2 MARKER NOT FOUND")
 
                 if last_z < ArucoLanding.LANDING_CM and (end - start) > ArucoLanding.SECONDS_BEFORE_GET_UP:
+                    print("3 FIXING WHEN MARKER NOT FOUND")
                     fc.setVirtualStickModeEnabled(True)
                     fc.move_distance(pitch_distance=0, roll_distance=0, throttle_distance=2, meters_per_second=0.3, order=["THROTTLE", "ROLL", "PITCH"])
                     gimbal.rotate(-90, 0, 0)
