@@ -15,11 +15,11 @@ camera = drone.getCamera()
 # print(camera.setExposureMode(ExposureMode.PROGRAM))
 
 #ARUCO LANDING FOR ISO AFTERNOON DAY
-# print(camera.setExposureMode(ExposureMode.MANUAL))
+print(camera.setExposureMode(ExposureMode.PROGRAM))
 # camera.setISO(ISO.ISO_400)
 # camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
 
-cameraType = "DAY_SUNNY"
+cameraType = "DAY_VERY_SUNNY"
 
 if cameraType == "DAY_VERY_SUNNY":
     camera.setISO(ISO.ISO_50)
