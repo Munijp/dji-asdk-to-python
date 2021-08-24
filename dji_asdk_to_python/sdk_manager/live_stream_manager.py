@@ -63,6 +63,7 @@ class CV2_Manager:
         """
             Start CV2 streaming
         """
+        print("Streaming listener start")
         self.streaming_listener.start()
 
     def stopStream(self):

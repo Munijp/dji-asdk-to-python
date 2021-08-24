@@ -20,6 +20,7 @@ class MessageBuilder:
     GET_WAYPOINT_MISSION_OPERATOR = "getWaypointMissionOperator"
     GET_CURRENT_STATE = "getCurrentState"
     START_MISSION = "startMission"
+    STOP_MISSION = "stopMission"
     SET_AUTO_FLIGHT_SPEED = "setAutoFlightSpeed"
     WAYPOINT_COUNT = "waypointCount"
     MAX_FLIGHT_SPEED = "maxFlightSpeed"

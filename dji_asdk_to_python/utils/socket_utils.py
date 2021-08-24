@@ -45,6 +45,7 @@ class SocketUtils:
         try:
             sock.connect((app_ip, SocketUtils.APP_PORT))
             sock.send(message.encode("utf-8"))
+            
         except socket.error as e:
             return SocketError("%s" % e)
         except socket.timeout as e:
