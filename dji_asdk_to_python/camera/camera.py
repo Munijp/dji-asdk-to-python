@@ -225,7 +225,7 @@ class Camera:
 
         checkParameters(callback=callback, method_name="setDisplayMode", timeout=timeout)
 
-        assert isinstance(display_mode, DisplayMode)
+        #assert isinstance(display_mode, DisplayMode)
 
         message = MessageBuilder.build_message(
             message_method=MessageBuilder.SET_DISPLAY_MODE,
