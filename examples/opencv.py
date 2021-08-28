@@ -5,7 +5,7 @@ from dji_asdk_to_python.products.aircraft import Aircraft
 from dji_asdk_to_python.errors import CustomError
 
 
-APP_IP = "192.168.100.210"
+APP_IP = "192.168.1.14"
 STREAMING_DURATION = 1000  # seconds
 
 aircraft = Aircraft(APP_IP)
