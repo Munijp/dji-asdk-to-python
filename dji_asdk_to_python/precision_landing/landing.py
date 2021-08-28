@@ -320,7 +320,7 @@ class ArucoSingleTracker:
 
 
 class ArucoLanding:
-    LANDING_CM = 270
+    LANDING_CM = 350
     SECONDS_BEFORE_GET_UP = 10
     MAX_SECONDS_GETTING_LANDING = 15
     X_Y_CM_ERROR_ALLOWED = 12
