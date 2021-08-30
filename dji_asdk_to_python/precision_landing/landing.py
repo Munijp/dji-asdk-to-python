@@ -325,6 +325,9 @@ class ArucoLanding:
     MAX_SECONDS_GETTING_LANDING = 15
     X_Y_CM_ERROR_ALLOWED = 12
     YAW_ERROR_ALLOWED = 15
+
+    CURRENT_ISO = "PROGRAM"
+    
     """
     Inits aruco precision landing
         Parameters:
@@ -374,6 +377,28 @@ class ArucoLanding:
             time.sleep(1)
 
     def camera_iso_setup(self, camera, cameraType):
+
+        camera.setExposureMode(ExposureMode.MANUAL)
+
+        if cameraType == "DAY_VERY_SUNNY":
+            camera.setISO(ISO.ISO_50)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        elif cameraType == "DAY_SUNNY":
+            camera.setISO(ISO.ISO_200)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        elif cameraType == "DAY_AFTERNOON":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_2000)
+        elif cameraType == "EVENING":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_8000)
+        elif cameraType == "MORNING":
+            camera.setISO(ISO.ISO_400)
+            camera.setShutterSpeed(ShutterSpeed.SHUTTER_SPEED_1_4000)
+        else:
+            camera.setExposureMode(ExposureMode.PROGRAM)
+
+    def camera_iso_print(self, camera, cameraType):
 
         camera.setExposureMode(ExposureMode.MANUAL)
 
@@ -475,7 +500,7 @@ class ArucoLanding:
                 if not rightIso:
                     isoCountChanger = isoCountChanger+1
                     if isoCountChanger >= 90:
-                        print("FOUND RIGHT ISO")
+                        print("FOUND RIGHT ISO. PRECISION GREATER THAN 90%")
                         rightIso = True
 
                 if not fps_limiter():
@@ -571,7 +596,10 @@ class ArucoLanding:
                 flight_controller_state = fc.getState()
                 flying = flight_controller_state.isFlying()
                 if flying is not None and flying and not rightIso and maxChance > 100:
-                    print("FINDING NEW ISO")
+                    print("FINDING NEW ISO. PRECISION OF "+ isoCountChanger + "% AND ITS ALTITUDE IS: "+z_marker)
+                    print("Exposure Mode : %s" % camera.getExposureMode())
+                    print("ISO : %s" % camera.getISO())
+                    print("Shutter Speed : %s" % camera.getShutterSpeed())
                     maxChance = 0
                     isoCountChanger = 0
                     i = i+1
