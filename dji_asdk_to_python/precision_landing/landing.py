@@ -465,7 +465,7 @@ class ArucoLanding:
 
         # LOGGING
 
-        file1 = open("log",datetime.date.today().day,datetime.date.today().month,datetime.date.today().year,datetime.datetime.now().hour,datetime.datetime.now().minute,"w")
+        file1 = open("log"+str(datetime.date.today().day)+str(datetime.date.today().month)+str(datetime.date.today().year)+str(datetime.datetime.now().hour)+str(datetime.datetime.now().minute),"w")
         file1.write("PRECISION,X,Y,Z,EXPOSURE_MODE,ISO,SHUTTER_SPEED")
         file1.write("-----------------------------------------------")
         while True:
