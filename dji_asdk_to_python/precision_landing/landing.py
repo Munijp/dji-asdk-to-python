@@ -516,6 +516,8 @@ class ArucoLanding:
 
                 start = time.perf_counter()
                 last_z = z_marker
+                last_x = x_marker
+                last_y = y_marker
 
                 if abs(yaw_camera) > 5:
                     if yaw_camera < 0:
@@ -596,7 +598,8 @@ class ArucoLanding:
                 flight_controller_state = fc.getState()
                 flying = flight_controller_state.isFlying()
                 if flying is not None and flying and not rightIso and maxChance > 100:
-                    print("FINDING NEW ISO. PRECISION OF "+ str(isoCountChanger) + "% AND ITS ALTITUDE IS: "+str(z_marker))
+                    print("FINDING NEW ISO. PRECISION OF "+ str(isoCountChanger))
+                    print("LAST X: "+str(last_x)+" LAST Y: "+str(last_y)+" LAST_Z: "+str(last_z))
                     print("Exposure Mode : %s" % camera.getExposureMode())
                     print("ISO : %s" % camera.getISO())
                     print("Shutter Speed : %s" % camera.getShutterSpeed())
