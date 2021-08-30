@@ -1,4 +1,5 @@
 import cv2.aruco as aruco
+import datetime
 import itertools
 import numpy as np
 import cv2
@@ -461,6 +462,12 @@ class ArucoLanding:
         maxChance = 0
         rightIso = False
         self.camera_iso_setup(camera, cameraTypeSettings[i])
+
+        # LOGGING
+
+        file1 = open("log",datetime.date.today().day,datetime.date.today().month,datetime.date.today().year,datetime.datetime.now().hour,datetime.datetime.now().minute,"w")
+
+
         while True:
             end = time.perf_counter()
             fcd.setPitch(0)
@@ -496,11 +503,14 @@ class ArucoLanding:
 
             if marker_found:
                 print("2 MARKER FOUND")
-
+                last_z = z_marker
+                last_x = x_marker
+                last_y = y_marker
                 if not rightIso:
                     isoCountChanger = isoCountChanger+1
                     if isoCountChanger >= 90:
                         print("FOUND RIGHT ISO. PRECISION GREATER THAN 90%")
+                        file1.write(str(isoCountChanger)+","+str(last_x)+","+str(last_y)+","+str(last_z)+","+camera.getExposureMode()+","+camera.getISO()+","+camera.getShutterSpeed())
                         rightIso = True
 
                 if not fps_limiter():
@@ -515,9 +525,7 @@ class ArucoLanding:
                 print("x %s y %s z %s yaw %s" % (x_marker, y_marker, z_marker, yaw_camera))
 
                 start = time.perf_counter()
-                last_z = z_marker
-                last_x = x_marker
-                last_y = y_marker
+                
 
                 if abs(yaw_camera) > 5:
                     if yaw_camera < 0:
@@ -598,11 +606,7 @@ class ArucoLanding:
                 flight_controller_state = fc.getState()
                 flying = flight_controller_state.isFlying()
                 if flying is not None and flying and not rightIso and maxChance > 100:
-                    print("FINDING NEW ISO. PRECISION OF "+ str(isoCountChanger))
-                    print("LAST X: "+str(last_x)+" LAST Y: "+str(last_y)+" LAST_Z: "+str(last_z))
-                    print("Exposure Mode : %s" % camera.getExposureMode())
-                    print("ISO : %s" % camera.getISO())
-                    print("Shutter Speed : %s" % camera.getShutterSpeed())
+                    file1.write(str(isoCountChanger)+","+str(last_x)+","+str(last_y)+","+str(last_z)+","+camera.getExposureMode()+","+camera.getISO()+","+camera.getShutterSpeed())
                     maxChance = 0
                     isoCountChanger = 0
                     i = i+1
